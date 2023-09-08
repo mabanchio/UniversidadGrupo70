@@ -1,6 +1,8 @@
 package Universidad.AccesoADatos;
 
+import Entidades.Alumno;
 import Entidades.Inscripcion;
+import Entidades.Materia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,12 +60,18 @@ public class InscripcionData {
                     + "FROM inscripcion";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            Alumno alumno=new Alumno();
+            Materia materia=new Materia();
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
                 inscripcion.setNota(rs.getDouble("nota"));
-                inscripcion.setAlumno(rs.getInt("idAlumno"));
-                inscripcion.setMateria(rs.getInt("idMateria"));
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                inscripcion.setAlumno(alumno);
+                //inscripcion.setAlumno(rs.getInt("idAlumno"));
+                materia.setIdMateria(rs.getInt("idMateria"));
+                inscripcion.setMateria(materia);
+                //inscripcion.setMateria(rs.getInt("idMateria"));
                 inscripciones.add(inscripcion);
             }
             ps.close();
@@ -83,12 +91,18 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+            Alumno alumno=new Alumno();
+            Materia materia=new Materia();
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
                 inscripcion.setNota(rs.getDouble("nota"));
-                inscripcion.setAlumno(rs.getInt("idAlumno"));
-                inscripcion.setMateria(rs.getInt("idMateria"));
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                inscripcion.setAlumno(alumno);
+                //inscripcion.setAlumno(rs.getInt("idAlumno"));
+                materia.setIdMateria(rs.getInt("idMateria"));
+                inscripcion.setMateria(materia);
+                //inscripcion.setMateria(rs.getInt("idMateria"));
                 inscripciones.add(inscripcion);
             }
             ps.close(); 
