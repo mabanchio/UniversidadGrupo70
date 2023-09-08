@@ -1,6 +1,6 @@
 
 package Universidad.AccesoADatos;
 
-public class AccesoADatos {
+public class Conexion {
     
 }
