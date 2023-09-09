@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.mariadb.jdbc.Statement;
 
@@ -60,8 +62,8 @@ public class InscripcionData {
                     + "FROM inscripcion";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            Alumno alumno=new Alumno();
-            Materia materia=new Materia();
+            Alumno alumno = new Alumno();
+            Materia materia = new Materia();
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
@@ -91,8 +93,8 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            Alumno alumno=new Alumno();
-            Materia materia=new Materia();
+            Alumno alumno = new Alumno();
+            Materia materia = new Materia();
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
@@ -105,10 +107,53 @@ public class InscripcionData {
                 //inscripcion.setMateria(rs.getInt("idMateria"));
                 inscripciones.add(inscripcion);
             }
-            ps.close(); 
+            ps.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Inscripcion " + e.getMessage());
         }
         return inscripciones;
     }
+    public List<Materia> materiasCursadas(int id) {
+        List<Materia> materiasCursadas = new ArrayList<>();
+        try {
+            String sql = "SELECT m.* FROM materia m JOIN inscripcion i on m.idMateria=i.idMateria WHERE i.idAlumno = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Materia materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAño(rs.getInt("año"));
+                materia.setEstado(rs.getBoolean("estado"));
+                materiasCursadas.add(materia);
+            }
+          ps.close();
+        } catch (SQLException e) {
+         JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Inscripcion " + e.getMessage());
+        }
+        return materiasCursadas;
+    }
+  public List<Materia> materiasNoCursadas(int id){
+      List <Materia> materiasNoCursadas= new ArrayList<>();
+      try {
+            String sql = "SELECT m.* FROM materia m JOIN inscripcion i on m.idMateria=i.idMateria WHERE i.idAlumno = ? GROUP BY m.Materia ";
+            "SELECT m.* FROM materia m INNER JOIN inscripcion i ON m.idMateria = i.idMateria WHERE i.idAlumno = 1 GROUP BY m.nombre";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Materia materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAño(rs.getInt("año"));
+                materia.setEstado(rs.getBoolean("estado"));
+                materiasNoCursadas.add(materia);
+            }
+          ps.close();
+        } catch (SQLException e) {
+         JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Inscripcion " + e.getMessage());
+        }
+        return materiasNoCursadas;
+  }
 }
