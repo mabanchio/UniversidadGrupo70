@@ -27,6 +27,7 @@ public class Inscripcion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setTitle("Inscripciones");
         setMinimumSize(new java.awt.Dimension(400, 500));
         setName("Inscripciones"); // NOI18N
         setPreferredSize(new java.awt.Dimension(400, 500));

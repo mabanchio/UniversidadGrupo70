@@ -27,6 +27,7 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setTitle("Alumnos por Materia");
         setMinimumSize(new java.awt.Dimension(500, 400));
         setName("Alumnos por Materias"); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 400));

@@ -27,6 +27,7 @@ public class Materia extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setTitle("Materias");
         setMinimumSize(new java.awt.Dimension(350, 500));
         setName("Materias"); // NOI18N
         setPreferredSize(new java.awt.Dimension(350, 500));

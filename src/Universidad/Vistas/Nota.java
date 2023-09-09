@@ -27,6 +27,7 @@ public class Nota extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setTitle("Notas");
         setMinimumSize(new java.awt.Dimension(350, 400));
         setName("Notas"); // NOI18N
         setPreferredSize(new java.awt.Dimension(350, 400));
