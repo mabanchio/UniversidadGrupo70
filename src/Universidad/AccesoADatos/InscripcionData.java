@@ -135,7 +135,13 @@ public class InscripcionData {
   public List<Materia> materiasNoCursadas(int id){
       List <Materia> materiasNoCursadas= new ArrayList<>();
       try {
-            String sql = "SELECT m.* FROM materia m INNER JOIN inscripcion i ON m.idMateria = i.idMateria WHERE i.idAlumno = 1 GROUP BY m.nombre";
+            String sql = "SELECT m.* "
+                    + "FROM materia m "
+                    + "LEFT JOIN "
+                    + "(SELECT DISTINCT idMateria FROM inscripcion WHERE idAlumno = ?) inscrito "
+                    + "ON m.idMateria = inscrito.idMateria "
+                    + "WHERE inscrito.idMateria IS NULL "
+                    + "AND m.estado = 1;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
