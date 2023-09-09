@@ -9,10 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.mariadb.jdbc.Statement;
+import org.mariadb.jdbc.*;
 
 public class InscripcionData {
 
@@ -137,8 +135,7 @@ public class InscripcionData {
   public List<Materia> materiasNoCursadas(int id){
       List <Materia> materiasNoCursadas= new ArrayList<>();
       try {
-            String sql = "SELECT m.* FROM materia m JOIN inscripcion i on m.idMateria=i.idMateria WHERE i.idAlumno = ? GROUP BY m.Materia ";
-            "SELECT m.* FROM materia m INNER JOIN inscripcion i ON m.idMateria = i.idMateria WHERE i.idAlumno = 1 GROUP BY m.nombre";
+            String sql = "SELECT m.* FROM materia m INNER JOIN inscripcion i ON m.idMateria = i.idMateria WHERE i.idAlumno = 1 GROUP BY m.nombre";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
