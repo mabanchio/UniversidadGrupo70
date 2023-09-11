@@ -1,9 +1,9 @@
-
 package Entidades;
 
 import java.time.LocalDate;
 
 public class Alumno {
+
     private int idAlumno;
     private int dni;
     private String apellido;
@@ -81,6 +81,12 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Alumno{" + "idAlumno=" + idAlumno + ", dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento=" + fechaNacimiento + ", estado=" + estado + '}';
+        String actividad = "";
+        if (estado) {
+            actividad = "activo";
+        } else {
+            actividad = "inactivo";
+        };
+        return idAlumno + ", " + dni + ", " + apellido + ", " + nombre + ", " + fechaNacimiento + ", " + actividad;
     }
 }

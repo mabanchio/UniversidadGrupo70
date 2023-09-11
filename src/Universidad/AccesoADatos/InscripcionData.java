@@ -4,6 +4,7 @@ import Entidades.Alumno;
 import Entidades.Inscripcion;
 import Entidades.Materia;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,27 +94,34 @@ public class InscripcionData {
         List<Inscripcion> inscripciones = new ArrayList<>();
         try {
             String sql = "SELECT * "
-                    + "FROM inscripcion i, alumno a "
+                    + "FROM inscripcion i, alumno a, materia m "
                     + "WHERE i.idAlumno = a.idAlumno "
+                    + "AND i.idMateria = m.idMateria "
                     + "AND a.idAlumno = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Inscripcion inscripcion = new Inscripcion();
-                inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
-                inscripcion.setNota(rs.getDouble("nota"));
+                inscripcion.setIdInscripcion(rs.getInt(1));
+                inscripcion.setNota(rs.getDouble(2));
 
                 // Crear objeto Alumno
                 Alumno alumno = new Alumno();
-                alumno.setIdAlumno(rs.getInt("alumno_id"));
-                alumno.setNombre(rs.getString("alumno_nombre"));
+                alumno.setIdAlumno(rs.getInt(3));
+                alumno.setDni(rs.getInt(6));
+                alumno.setApellido(rs.getString(7));
+                alumno.setNombre(rs.getString(8));
+                alumno.setFechaNacimiento(rs.getDate(9).toLocalDate());
+                alumno.setEstado(rs.getBoolean(10));
                 inscripcion.setAlumno(alumno);
 
                 // Crear objeto Materia
                 Materia materia = new Materia();
-                materia.setIdMateria(rs.getInt("materia_id"));
-                materia.setNombre(rs.getString("materia_nombre"));
+                materia.setIdMateria(rs.getInt(11));
+                materia.setNombre(rs.getString(12));
+                materia.setAño(rs.getInt(13));
+                materia.setEstado(rs.getBoolean(14));
                 inscripcion.setMateria(materia);
 
                 // Agregar inscripcion a la lista

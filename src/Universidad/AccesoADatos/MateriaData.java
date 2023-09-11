@@ -36,7 +36,7 @@ public class MateriaData {
 
             //Evaluar exito al insertar alumno
             if (rs.next()) {
-                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setIdMateria(rs.getInt("insert_id"));
                 JOptionPane.showMessageDialog(null, "Materia añadida con éxito.");
             }
 
@@ -86,7 +86,6 @@ public class MateriaData {
         String sql = "UPDATE materia SET nombre = ?, año = ? "
                 + "WHERE idMateria = ?";
         PreparedStatement ps = null;
-
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, materia.getNombre());

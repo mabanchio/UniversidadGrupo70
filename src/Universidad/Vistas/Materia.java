@@ -5,15 +5,17 @@
  */
 package Universidad.Vistas;
 
+import Universidad.AccesoADatos.MateriaData;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Matias
  */
 public class Materia extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Materia
-     */
+    private int ultimoIdMateria;
+
     public Materia() {
         initComponents();
     }
@@ -36,7 +38,7 @@ public class Materia extends javax.swing.JInternalFrame {
         jtfCodigo = new javax.swing.JTextField();
         jtfNombre = new javax.swing.JTextField();
         jtfAño = new javax.swing.JTextField();
-        jrdEstado = new javax.swing.JRadioButton();
+        jrbEstado = new javax.swing.JRadioButton();
         jbNuevo = new javax.swing.JButton();
         jbBuscar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
@@ -60,12 +62,32 @@ public class Materia extends javax.swing.JInternalFrame {
         jLabel5.setText("Estado:");
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -96,16 +118,16 @@ public class Materia extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jtfCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jbBuscar))
-                                    .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfAño, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jtfAño, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtfNombre)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
-                                .addComponent(jrdEstado))))
+                                .addComponent(jrbEstado))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(jbNuevo)
@@ -141,13 +163,13 @@ public class Materia extends javax.swing.JInternalFrame {
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jrdEstado))
+                    .addComponent(jrbEstado))
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbNuevo)
                     .addComponent(jbEliminar)
                     .addComponent(jbGuardar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(jbSalir)
                 .addGap(26, 26, 26))
         );
@@ -158,6 +180,77 @@ public class Materia extends javax.swing.JInternalFrame {
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        try {
+            MateriaData materiaBuscar = new MateriaData();
+            Entidades.Materia materia = new Entidades.Materia();
+            materia = materiaBuscar.buscarMateria(Integer.parseInt(jtfCodigo.getText()));
+            ultimoIdMateria = materia.getIdMateria();
+            borrarFormulario();
+            jtfCodigo.setText(materia.getIdMateria() + "");
+            jtfNombre.setText(materia.getNombre());
+            jtfAño.setText(materia.getAño() + "");
+            jrbEstado.setSelected(materia.isEstado());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un Codigo válido.");
+        } catch (NullPointerException e) {
+        }
+
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        if (!(jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
+            try {
+                MateriaData materiaAgregar = new MateriaData();
+                Entidades.Materia materia = new Entidades.Materia();
+                materia.setNombre(jtfNombre.getText());
+                materia.setAño(Integer.parseInt(jtfAño.getText()));
+                materia.setEstado(jrbEstado.isSelected());
+                materiaAgregar.guardarMateria(materia);
+                borrarFormulario();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un año válido.");
+            } catch (NullPointerException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe ingresar todos los datos de la materia para agregar una materia nueva.");
+        }
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        if (!jtfCodigo.getText().isEmpty()) {
+            try {
+                MateriaData materiaEliminar = new MateriaData();
+                materiaEliminar.eliminarMateria(Integer.parseInt(jtfCodigo.getText()));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código válido.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el código de materia válido a eliminar");
+        }
+    }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        if (Integer.parseInt(jtfCodigo.getText()) != ultimoIdMateria) {
+            JOptionPane.showMessageDialog(this, "No es posible modificar el código de la materia.");
+        } else if (!(jtfCodigo.getText().isEmpty() || jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
+            try {
+                MateriaData materiaGuardar = new MateriaData();
+                Entidades.Materia materia = new Entidades.Materia();
+                materia.setIdMateria(ultimoIdMateria);
+                materia.setNombre(jtfNombre.getText());
+                materia.setAño(Integer.parseInt(jtfAño.getText()));
+                materiaGuardar.modificarMateria(materia);
+                borrarFormulario();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código y un año válidos.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe ingresar todos los datos de la materia a modificar.");
+        }
+
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -172,9 +265,15 @@ public class Materia extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JRadioButton jrdEstado;
+    private javax.swing.JRadioButton jrbEstado;
     private javax.swing.JTextField jtfAño;
     private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfNombre;
     // End of variables declaration//GEN-END:variables
+public void borrarFormulario() {
+        jtfCodigo.setText("");
+        jtfNombre.setText("");
+        jtfAño.setText("");
+        jrbEstado.setSelected(false);
+    }
 }
