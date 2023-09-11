@@ -102,7 +102,7 @@ public class AlumnoData {
 
             if (rs.next()) {
                 alumno = new Alumno();
-                alumno.setIdAlumno(rs.getInt("id"));
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni(dni);
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
