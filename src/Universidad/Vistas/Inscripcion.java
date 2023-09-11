@@ -102,6 +102,11 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         });
 
         jbAnularInscripcion.setText("Anular Inscripción");
+        jbAnularInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAnularInscripcionActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -238,12 +243,12 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             Entidades.Alumno alumno = new Entidades.Alumno();
             Entidades.Materia materia = new Entidades.Materia();
             String cboAlumno = (String) jcbAlumnos.getSelectedItem();
-            String[] parts = cboAlumno.split(","); 
-           
-             //Extraer datos de la tabla para crear los objetos Alumno y Materia
-            materia.setIdMateria((int)(modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
+            String[] parts = cboAlumno.split(",");
+
+            //Extraer datos de la tabla para crear los objetos Alumno y Materia
+            materia.setIdMateria((int) (modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
             materia.setNombre((String) modelo.getValueAt(jtMaterias.getSelectedRow(), 1));
-            materia.setAño((int)(modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
+            materia.setAño((int) (modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
             materia.setEstado(true);
 
             alumno.setIdAlumno(Integer.parseInt(parts[0].trim()));
@@ -262,9 +267,22 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             inscribir.guardarInscripcion(inscripcion);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al realizar inscripción! " + e.getMessage());
         }
     }//GEN-LAST:event_jbInscribirActionPerformed
+
+    private void jbAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularInscripcionActionPerformed
+        try {
+            InscripcionData borrarInscripcion = new InscripcionData();
+            String cboAlumno = (String) jcbAlumnos.getSelectedItem();
+            String[] parts = cboAlumno.split(",");
+            int idAlumno = Integer.parseInt(parts[0].trim());
+            int idMateria = (int) (modelo.getValueAt(jtMaterias.getSelectedRow(), 0));
+            borrarInscripcion.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar inscripción! " + e.getMessage());
+        }
+    }//GEN-LAST:event_jbAnularInscripcionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
