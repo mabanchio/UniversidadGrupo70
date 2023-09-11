@@ -42,7 +42,7 @@ public class InscripcionData {
 
             //Evaluar exito al insertar alumno
             if (rs.next()) {
-                insc.setIdInscripcion(rs.getInt("idInscripcion"));
+                insc.setIdInscripcion(rs.getInt("insert_id"));
                 JOptionPane.showMessageDialog(null, "Inscripción añadida con éxito.");
             }
 

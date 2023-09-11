@@ -7,6 +7,8 @@ package Universidad.Vistas;
 
 import Universidad.AccesoADatos.AlumnoData;
 import Universidad.AccesoADatos.InscripcionData;
+import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,6 +28,8 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         armarCabecera();
         bgMaterias.add(jrbInscriptas);
         bgMaterias.add(jrbNoInscriptas);
+        jbInscribir.setEnabled(false);
+        jbAnularInscripcion.setEnabled(false);
     }
 
     /**
@@ -72,6 +76,11 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         });
 
         jrbNoInscriptas.setText("Materias NO Inscriptas");
+        jrbNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbNoInscriptasActionPerformed(evt);
+            }
+        });
 
         jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,6 +96,11 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtMaterias);
 
         jbInscribir.setText("Inscribir");
+        jbInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbInscribirActionPerformed(evt);
+            }
+        });
 
         jbAnularInscripcion.setText("Anular Inscripción");
 
@@ -173,6 +187,8 @@ public class Inscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jrbInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInscriptasActionPerformed
+        jbInscribir.setEnabled(false);
+        jbAnularInscripcion.setEnabled(true);
         try {
             InscripcionData inscripcionConsulta = new InscripcionData();
             List<Entidades.Inscripcion> inscripciones = new ArrayList<>();
@@ -188,10 +204,71 @@ public class Inscripcion extends javax.swing.JInternalFrame {
                 });
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error! " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
         }
 
     }//GEN-LAST:event_jrbInscriptasActionPerformed
+
+    private void jrbNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNoInscriptasActionPerformed
+        jbInscribir.setEnabled(true);
+        jbAnularInscripcion.setEnabled(false);
+        try {
+            InscripcionData inscripcionConsulta = new InscripcionData();
+            List<Entidades.Materia> noInscriptas = new ArrayList<>();
+            String alumno = (String) jcbAlumnos.getSelectedItem();
+            String[] parts = alumno.split(",");
+            noInscriptas = inscripcionConsulta.materiasNoCursadas(Integer.parseInt(parts[0].trim()));
+            borrarFilas();
+            for (Entidades.Materia registros : noInscriptas) {
+                modelo.addRow(new Object[]{
+                    registros.getIdMateria(),
+                    registros.getNombre(),
+                    registros.getAño()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_jrbNoInscriptasActionPerformed
+
+    private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
+        try {
+            InscripcionData inscribir = new InscripcionData();
+            Entidades.Inscripcion inscripcion = new Entidades.Inscripcion();
+            Entidades.Alumno alumno = new Entidades.Alumno();
+            Entidades.Materia materia = new Entidades.Materia();
+            String cboAlumno = (String) jcbAlumnos.getSelectedItem();
+            String[] parts = cboAlumno.split(",");
+
+            //Extraer datos de la tabla para crear los objetos Alumno y Materia
+            materia.setIdMateria((modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
+            materia.setNombre((String) modelo.getValueAt(jtMaterias.getSelectedRow(), 1));
+            materia.setAño((modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
+            materia.setEstado(true);
+
+            alumno.setIdAlumno(Integer.parseInt(parts[0].trim()));
+            alumno.setDni(Integer.parseInt(parts[1].trim()));
+            alumno.setApellido(parts[2].trim());
+            alumno.setNombre(parts[3].trim());
+            alumno.setFechaNacimiento(Date.valueOf(parts[4].trim()).toLocalDate());
+            alumno.setEstado(true);
+
+            System.out.println(alumno);
+            System.out.println(materia);
+
+            //Creacion de la inscripcion
+            inscripcion.setNota(0.0);
+            inscripcion.setAlumno(alumno);
+            inscripcion.setMateria(materia);
+
+            //Efectivizar la inscripción
+            inscribir.guardarInscripcion(inscripcion);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
+        }
+    }//GEN-LAST:event_jbInscribirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
