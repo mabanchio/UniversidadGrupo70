@@ -29,7 +29,7 @@ public class AlumnoData {
             ps.setString(3, alumno.getNombre());
             ps.setDate(4, Date.valueOf(alumno.getFechaNacimiento())); //Convirtiendo de LocalDate a Date
             ps.setBoolean(5, alumno.isEstado()); //Mediante if reducido
-
+            
             //Ejecutar la query para insert, update o delete
             ps.executeUpdate();
 
@@ -38,7 +38,7 @@ public class AlumnoData {
 
             //Evaluar exito al insertar alumno
             if (rs.next()) {
-                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setIdAlumno(rs.getInt("insert_id"));
                 JOptionPane.showMessageDialog(null, "Alumno añadido con éxito.");
             }
 

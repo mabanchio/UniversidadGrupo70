@@ -7,6 +7,8 @@ package Universidad.Vistas;
 
 import Universidad.AccesoADatos.AlumnoData;
 import java.sql.Date;
+import java.time.ZoneId;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,6 +77,11 @@ public class Alumno extends javax.swing.JInternalFrame {
         });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setText("Eliminar");
 
@@ -181,12 +188,12 @@ public class Alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        AlumnoData alumnoBuscar = new AlumnoData();
-        Entidades.Alumno alumno = new Entidades.Alumno();
         try {
+            AlumnoData alumnoBuscar = new AlumnoData();
+            Entidades.Alumno alumno = new Entidades.Alumno();
             alumno = alumnoBuscar.buscarAlumnoPorDni(Integer.parseInt(jtfDni.getText()));
             borrarFormulario();
-            jtfDni.setText(alumno.getDni()+"");
+            jtfDni.setText(alumno.getDni() + "");
             jtfApellido.setText(alumno.getApellido());
             jtfNombre.setText(alumno.getNombre());
             jrbEstado.setSelected(alumno.isEstado());
@@ -196,6 +203,26 @@ public class Alumno extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido.");
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        try {
+            AlumnoData alumnoAgregar = new AlumnoData();
+            Entidades.Alumno alumno = new Entidades.Alumno();
+            alumno.setDni(Integer.parseInt(jtfDni.getText()));
+            alumno.setApellido(jtfApellido.getText());
+            alumno.setNombre(jtfNombre.getText());
+            alumno.setEstado(jrbEstado.isSelected());
+            alumno.setFechaNacimiento(jdcFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            alumnoAgregar.guardarAlumno(alumno);
+            borrarFormulario();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Los dtos ingresados deben ser válidos.");
+        }
+
+    }//GEN-LAST:event_jbNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
