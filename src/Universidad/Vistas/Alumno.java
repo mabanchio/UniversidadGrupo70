@@ -84,6 +84,11 @@ public class Alumno extends javax.swing.JInternalFrame {
         });
 
         jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setText("Guardar");
 
@@ -223,6 +228,22 @@ public class Alumno extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        try {
+            AlumnoData alumnoEliminar = new AlumnoData();
+            Entidades.Alumno alumno = new Entidades.Alumno();
+            alumno = alumnoEliminar.buscarAlumnoPorDni(Integer.parseInt(jtfDni.getText()));
+            alumnoEliminar.eliminarAlumno(alumno.getIdAlumno());
+            borrarFormulario();
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Los dtos ingresados deben ser válidos.");
+        }
+
+    }//GEN-LAST:event_jbEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
