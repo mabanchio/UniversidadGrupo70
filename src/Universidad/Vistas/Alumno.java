@@ -16,10 +16,7 @@ import javax.swing.JOptionPane;
  * @author Matias
  */
 public class Alumno extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form Alumnos
-     */
+    private int ultimoIdAlumno;
     public Alumno() {
         initComponents();
     }
@@ -91,6 +88,11 @@ public class Alumno extends javax.swing.JInternalFrame {
         });
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +199,7 @@ public class Alumno extends javax.swing.JInternalFrame {
             AlumnoData alumnoBuscar = new AlumnoData();
             Entidades.Alumno alumno = new Entidades.Alumno();
             alumno = alumnoBuscar.buscarAlumnoPorDni(Integer.parseInt(jtfDni.getText()));
+            ultimoIdAlumno = alumno.getIdAlumno();
             borrarFormulario();
             jtfDni.setText(alumno.getDni() + "");
             jtfApellido.setText(alumno.getApellido());
@@ -244,6 +247,26 @@ public class Alumno extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        try {
+            AlumnoData alumnoModificar = new AlumnoData();
+            Entidades.Alumno alumno = new Entidades.Alumno();
+            alumno = alumnoModificar.buscarAlumno(ultimoIdAlumno);
+            alumno.setDni(Integer.parseInt(jtfDni.getText()));
+            alumno.setApellido(jtfApellido.getText());
+            alumno.setNombre(jtfNombre.getText());
+            alumno.setEstado(jrbEstado.isSelected());
+            alumno.setFechaNacimiento(jdcFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            alumnoModificar.modificarAlumno(alumno);
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Los dtos ingresados deben ser válidos.");
+        }
+        
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
