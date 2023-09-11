@@ -8,7 +8,6 @@ package Universidad.Vistas;
 import Universidad.AccesoADatos.AlumnoData;
 import Universidad.AccesoADatos.InscripcionData;
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -239,9 +238,9 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             Entidades.Alumno alumno = new Entidades.Alumno();
             Entidades.Materia materia = new Entidades.Materia();
             String cboAlumno = (String) jcbAlumnos.getSelectedItem();
-            String[] parts = cboAlumno.split(",");
-
-            //Extraer datos de la tabla para crear los objetos Alumno y Materia
+            String[] parts = cboAlumno.split(","); 
+           
+             //Extraer datos de la tabla para crear los objetos Alumno y Materia
             materia.setIdMateria((modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
             materia.setNombre((String) modelo.getValueAt(jtMaterias.getSelectedRow(), 1));
             materia.setAño((modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
@@ -253,9 +252,6 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             alumno.setNombre(parts[3].trim());
             alumno.setFechaNacimiento(Date.valueOf(parts[4].trim()).toLocalDate());
             alumno.setEstado(true);
-
-            System.out.println(alumno);
-            System.out.println(materia);
 
             //Creacion de la inscripcion
             inscripcion.setNota(0.0);
