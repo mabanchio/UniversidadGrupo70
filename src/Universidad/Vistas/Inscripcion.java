@@ -241,9 +241,9 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             String[] parts = cboAlumno.split(","); 
            
              //Extraer datos de la tabla para crear los objetos Alumno y Materia
-            materia.setIdMateria((modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
+            materia.setIdMateria((int)(modelo.getValueAt(jtMaterias.getSelectedRow(), 0)));
             materia.setNombre((String) modelo.getValueAt(jtMaterias.getSelectedRow(), 1));
-            materia.setAño((modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
+            materia.setAño((int)(modelo.getValueAt(jtMaterias.getSelectedRow(), 2)));
             materia.setEstado(true);
 
             alumno.setIdAlumno(Integer.parseInt(parts[0].trim()));
