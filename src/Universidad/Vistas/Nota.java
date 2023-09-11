@@ -5,17 +5,25 @@
  */
 package Universidad.Vistas;
 
+import Universidad.AccesoADatos.AlumnoData;
+import Universidad.AccesoADatos.InscripcionData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Matias
  */
 public class Nota extends javax.swing.JInternalFrame {
-
+private DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form Nota
      */
     public Nota() {
         initComponents();
+        cargarCboAlumnos();
+        armarCabecera();
     }
 
     /**
@@ -45,6 +53,12 @@ public class Nota extends javax.swing.JInternalFrame {
         jLabel1.setText("Cargar Notas");
 
         jLabel2.setText("Seleccione un alumno:");
+
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
 
         jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,6 +136,22 @@ public class Nota extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+        List<Entidades.Inscripcion>inscripciones = new ArrayList<>();
+        InscripcionData inscripcion = new InscripcionData();
+         String alumno = (String) jcbAlumnos.getSelectedItem();
+         String[] parts = alumno.split(",");
+         inscripciones=inscripcion.obtenerInscripcionesPorAlumno(Integer.parseInt(parts[0].trim()));
+         borrarFilas();
+         for (Entidades.Inscripcion registros : inscripciones) {
+                modelo.addRow(new Object[]{
+                    registros.getMateria().getIdMateria(),
+                    registros.getMateria().getNombre(),
+                    registros.getNota()
+                });
+            }       
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -133,4 +163,27 @@ public class Nota extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbAlumnos;
     private javax.swing.JTable jtMaterias;
     // End of variables declaration//GEN-END:variables
+public void cargarCboAlumnos() {
+        AlumnoData consultaAlumnos = new AlumnoData();
+        List<Entidades.Alumno> alumnos = new ArrayList<>();
+        alumnos = consultaAlumnos.listarAlumnos();
+        jcbAlumnos.removeAllItems();
+        for (Entidades.Alumno registros : alumnos) {
+            jcbAlumnos.addItem(registros.toString());
+        }
+    }
+
+ public void armarCabecera() {
+        modelo.addColumn("Id");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Año");
+        jtMaterias.setModel(modelo);
+    }
+
+    private void borrarFilas() {
+        int f = jtMaterias.getRowCount() - 1;
+        for (; f >= 0; f--) {
+            modelo.removeRow(f);
+        }
+    }
 }
