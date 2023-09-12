@@ -142,7 +142,7 @@ private DefaultTableModel modelo = new DefaultTableModel();
          String alumno = (String) jcbAlumnos.getSelectedItem();
          String[] parts = alumno.split(",");
          inscripciones=inscripcion.obtenerInscripcionesPorAlumno(Integer.parseInt(parts[0].trim()));
-         borrarFilas();
+         //borrarFilas();
          for (Entidades.Inscripcion registros : inscripciones) {
                 modelo.addRow(new Object[]{
                     registros.getMateria().getIdMateria(),
