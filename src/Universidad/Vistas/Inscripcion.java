@@ -71,6 +71,12 @@ public class Inscripcion extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un alumno:");
 
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Listado de Materias");
 
@@ -294,6 +300,14 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al eliminar inscripción! " + e.getMessage());
         }
     }//GEN-LAST:event_jbAnularInscripcionActionPerformed
+
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+        if(jrbInscriptas.isSelected()){
+            jrbInscriptas.doClick();
+        } else if(jrbNoInscriptas.isSelected()){
+            jrbNoInscriptas.doClick();
+        }
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
