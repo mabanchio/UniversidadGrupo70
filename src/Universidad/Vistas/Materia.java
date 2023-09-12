@@ -192,6 +192,8 @@ public class Materia extends javax.swing.JInternalFrame {
             jtfNombre.setText(materia.getNombre());
             jtfAño.setText(materia.getAño() + "");
             jrbEstado.setSelected(materia.isEstado());
+            jrbEstado.setEnabled(false);
+            
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un Codigo válido.");
         } catch (NullPointerException e) {
@@ -200,7 +202,9 @@ public class Materia extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        if (!(jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
+        if(!jrbEstado.isEnabled()){
+            borrarFormulario();            
+        } else if (!(jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
             try {
                 MateriaData materiaAgregar = new MateriaData();
                 Entidades.Materia materia = new Entidades.Materia();
@@ -275,5 +279,6 @@ public void borrarFormulario() {
         jtfNombre.setText("");
         jtfAño.setText("");
         jrbEstado.setSelected(false);
+        jrbEstado.setEnabled(true);
     }
 }

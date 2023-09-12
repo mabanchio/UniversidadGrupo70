@@ -208,6 +208,7 @@ public class Alumno extends javax.swing.JInternalFrame {
             jtfNombre.setText(alumno.getNombre());
             jrbEstado.setSelected(alumno.isEstado());
             jdcFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
+            jrbEstado.setEnabled(false);
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido.");
@@ -216,7 +217,9 @@ public class Alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        if (!(jtfDni.getText().isEmpty() || jtfApellido.getText().isEmpty() || jtfNombre.getText().isEmpty() || jrbEstado.isSelected()) || jdcFechaNacimiento.getDate() != null) {
+        if (!jrbEstado.isEnabled()){
+            borrarFormulario();
+        }else if (!(jtfDni.getText().isEmpty() || jtfApellido.getText().isEmpty() || jtfNombre.getText().isEmpty() || jrbEstado.isSelected()) || jdcFechaNacimiento.getDate() != null) {
             try {
                 AlumnoData alumnoAgregar = new AlumnoData();
                 Entidades.Alumno alumno = new Entidades.Alumno();
@@ -300,6 +303,7 @@ public class Alumno extends javax.swing.JInternalFrame {
         jtfNombre.setText("");
         jrbEstado.setSelected(false);
         jdcFechaNacimiento.setDate(null);
+        jrbEstado.setEnabled(true);
     }
 
 }
