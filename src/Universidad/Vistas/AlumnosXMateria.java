@@ -5,17 +5,32 @@
  */
 package Universidad.Vistas;
 
+import Universidad.AccesoADatos.InscripcionData;
+import Universidad.AccesoADatos.MateriaData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Matias
  */
 public class AlumnosXMateria extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form AlumnosXMateria
-     */
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        //Permitir solo la edicion de la columna 3 (Notas) (indices 0, 1 y 2)
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
     public AlumnosXMateria() {
         initComponents();
+        armarCabecera();
+        cargarCboMaterias();
+        
     }
 
     /**
@@ -44,6 +59,12 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
         jLabel1.setText("Listado de Alumnos por Materia");
 
         jLabel2.setText("Seleccione una Materia:");
+
+        jcbMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbMateriasActionPerformed(evt);
+            }
+        });
 
         jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,7 +108,7 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(23, 23, 23)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,6 +135,28 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
+    private void jcbMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMateriasActionPerformed
+        try {
+            InscripcionData alumnosPorMateria = new InscripcionData();
+            List<Entidades.Alumno> alumnos = new ArrayList<>();
+            String materia = (String) jcbMaterias.getSelectedItem();
+            String[] parts = materia.split(",");
+            alumnos = alumnosPorMateria.obtenerAlumnosXMateria(Integer.parseInt(parts[0].trim()));
+            borrarFilas();
+            for(Entidades.Alumno registros : alumnos){
+                modelo.addRow(new Object[]{
+                    registros.getIdAlumno(),
+                    registros.getDni(),
+                    registros.getApellido(),
+                    registros.getNombre()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_jcbMateriasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -124,4 +167,29 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbMaterias;
     private javax.swing.JTable jtAlumnos;
     // End of variables declaration//GEN-END:variables
+public void cargarCboMaterias() {
+        MateriaData consultaMaterias = new MateriaData();
+        List<Entidades.Materia> materias = new ArrayList<>();
+        materias = consultaMaterias.listaMateria();
+        jcbMaterias.removeAllItems();
+        for (Entidades.Materia registros : materias) {
+            jcbMaterias.addItem(registros.toString());
+        }
+    }
+
+    public void armarCabecera() {
+        modelo.addColumn("Id");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Nombre");
+        jtAlumnos.setModel(modelo);
+    }
+
+    private void borrarFilas() {
+        int f = jtAlumnos.getRowCount() - 1;
+        for (; f >= 0; f--) {
+            modelo.removeRow(f);
+        }
+    }
+
 }

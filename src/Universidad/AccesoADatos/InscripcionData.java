@@ -239,7 +239,7 @@ public class InscripcionData {
     public List<Alumno> obtenerAlumnosXMateria(int idMateria) {
         List<Alumno> alumnos = new ArrayList<>();
         String sql = "SELECT a.* "
-                + "FROM alumnos a "
+                + "FROM alumno a "
                 + "JOIN inscripcion i "
                 + "ON a.idAlumno = i.idAlumno "
                 + "WHERE i.idMateria = ?";
