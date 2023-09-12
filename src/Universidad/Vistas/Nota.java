@@ -5,17 +5,32 @@
  */
 package Universidad.Vistas;
 
+import Universidad.AccesoADatos.AlumnoData;
+import Universidad.AccesoADatos.InscripcionData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Matias
  */
 public class Nota extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Nota
-     */
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        //Permitir solo la edicion de la columna 3 (Notas) (indices 0, 1 y 2)
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return column == 2;
+        }
+
+    };
+
     public Nota() {
         initComponents();
+        armarCabecera();
+        cargarCboAlumnos();
     }
 
     /**
@@ -46,6 +61,12 @@ public class Nota extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un alumno:");
 
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
+
         jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -60,6 +81,11 @@ public class Nota extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtMaterias);
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +99,7 @@ public class Nota extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -88,12 +114,11 @@ public class Nota extends javax.swing.JInternalFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jbSalir)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 24, Short.MAX_VALUE))
+                        .addComponent(jcbAlumnos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,17 +127,17 @@ public class Nota extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbSalir)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,6 +146,37 @@ public class Nota extends javax.swing.JInternalFrame {
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+        try {
+            InscripcionData inscripcionAlumno = new InscripcionData();
+            List<Entidades.Inscripcion> inscripciones = new ArrayList<>();
+            Entidades.Inscripcion inscripcion = new Entidades.Inscripcion();
+            String alumno = (String) jcbAlumnos.getSelectedItem();
+            String[] parts = alumno.split(",");
+            inscripciones = inscripcionAlumno.obtenerInscripcionesPorAlumno(Integer.parseInt(parts[0].trim()));
+            borrarFilas();
+            for (Entidades.Inscripcion registros : inscripciones) {
+                modelo.addRow(new Object[]{
+                    registros.getMateria().getIdMateria(),
+                    registros.getMateria().getNombre(),
+                    registros.getNota()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Errot " + e.getMessage());
+        }
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        InscripcionData actualizarNota = new InscripcionData();
+        String alumno = (String) jcbAlumnos.getSelectedItem();
+        String[] parts = alumno.split(",");
+        Object nota = modelo.getValueAt(jtMaterias.getSelectedRow(), 2);
+        int idAlumno = Integer.parseInt(parts[0].trim());
+        int idMateria = (int) modelo.getValueAt(jtMaterias.getSelectedRow(), 0);
+        actualizarNota.actualizarNota(idAlumno, idMateria, Double.parseDouble(nota.toString()));
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -133,4 +189,28 @@ public class Nota extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcbAlumnos;
     private javax.swing.JTable jtMaterias;
     // End of variables declaration//GEN-END:variables
+public void cargarCboAlumnos() {
+        AlumnoData consultaAlumnos = new AlumnoData();
+        List<Entidades.Alumno> alumnos = new ArrayList<>();
+        alumnos = consultaAlumnos.listarAlumnos();
+        jcbAlumnos.removeAllItems();
+        for (Entidades.Alumno registros : alumnos) {
+            jcbAlumnos.addItem(registros.toString());
+        }
+    }
+
+    public void armarCabecera() {
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Nota");
+        jtMaterias.setModel(modelo);
+    }
+
+    private void borrarFilas() {
+        int f = jtMaterias.getRowCount() - 1;
+        for (; f >= 0; f--) {
+            modelo.removeRow(f);
+        }
+    }
+
 }

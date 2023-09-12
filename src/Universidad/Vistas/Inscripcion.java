@@ -265,6 +265,9 @@ public class Inscripcion extends javax.swing.JInternalFrame {
 
             //Efectivizar la inscripción
             inscribir.guardarInscripcion(inscripcion);
+            
+            //Actualizar la vista
+            jrbNoInscriptas.doClick();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al realizar inscripción! " + e.getMessage());
@@ -279,6 +282,7 @@ public class Inscripcion extends javax.swing.JInternalFrame {
             int idAlumno = Integer.parseInt(parts[0].trim());
             int idMateria = (int) (modelo.getValueAt(jtMaterias.getSelectedRow(), 0));
             borrarInscripcion.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
+            jrbInscriptas.doClick();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al eliminar inscripción! " + e.getMessage());
         }

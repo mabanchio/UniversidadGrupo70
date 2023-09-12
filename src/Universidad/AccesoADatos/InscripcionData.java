@@ -218,10 +218,10 @@ public class InscripcionData {
                 + "AND idMateria = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idAlumno);
-            ps.setInt(2, idMateria);
-            ps.setDouble(3, nota);
-
+            ps.setDouble(1, nota);
+            ps.setInt(2, idAlumno);
+            ps.setInt(3, idMateria);
+            
             //Crear variable de control de eliminación
             int exito = ps.executeUpdate();
 
