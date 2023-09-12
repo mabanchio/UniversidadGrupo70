@@ -221,6 +221,7 @@ public class Alumno extends javax.swing.JInternalFrame {
             borrarFormulario();
         }else if (!(jtfDni.getText().isEmpty() || jtfApellido.getText().isEmpty() || jtfNombre.getText().isEmpty() || jrbEstado.isSelected()) || jdcFechaNacimiento.getDate() != null) {
             try {
+                jrbEstado.setSelected(true);
                 AlumnoData alumnoAgregar = new AlumnoData();
                 Entidades.Alumno alumno = new Entidades.Alumno();
                 alumno.setDni(Integer.parseInt(jtfDni.getText()));
