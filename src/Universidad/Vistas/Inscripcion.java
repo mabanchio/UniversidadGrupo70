@@ -19,7 +19,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Inscripcion extends javax.swing.JInternalFrame {
 
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        //No permitir edicion de columnas
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+
+    };
 
     public Inscripcion() {
         initComponents();
