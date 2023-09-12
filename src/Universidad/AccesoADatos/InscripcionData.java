@@ -54,42 +54,6 @@ public class InscripcionData {
         }
     }
 
-    public List<Inscripcion> obtenerInscripciones() {
-        List<Inscripcion> inscripciones = new ArrayList<>();
-        try {
-            String sql = "SELECT i.*, a.idAlumno AS alumno_id, a.nombre AS alumno_nombre, m.idMateria AS materia_id, m.nombre AS materia_nombre "
-                    + "FROM inscripcion i "
-                    + "JOIN alumno a ON i.idAlumno = a.idAlumno "
-                    + "JOIN materia m ON i.idMateria = m.idMateria";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Inscripcion inscripcion = new Inscripcion();
-                inscripcion.setIdInscripcion(rs.getInt("idInscripcion"));
-                inscripcion.setNota(rs.getDouble("nota"));
-
-                // Crear objeto Alumno
-                Alumno alumno = new Alumno();
-                alumno.setIdAlumno(rs.getInt("alumno_id"));
-                alumno.setNombre(rs.getString("alumno_nombre"));
-                inscripcion.setAlumno(alumno);
-
-                // Crear objeto Materia
-                Materia materia = new Materia();
-                materia.setIdMateria(rs.getInt("materia_id"));
-                materia.setNombre(rs.getString("materia_nombre"));
-                inscripcion.setMateria(materia);
-
-                // Agregar inscripcion a la lista
-                inscripciones.add(inscripcion);
-            }
-            ps.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Inscripcion " + e.getMessage());
-        }
-        return inscripciones;
-    }
-
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id) {
         List<Inscripcion> inscripciones = new ArrayList<>();
         try {
