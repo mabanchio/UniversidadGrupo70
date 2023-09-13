@@ -29,7 +29,10 @@ public class AlumnoData {
             ps.setString(3, alumno.getNombre());
             ps.setDate(4, Date.valueOf(alumno.getFechaNacimiento()));
             ps.setBoolean(5, alumno.isEstado());
-            ps.executeUpdate();
+           int resultado=  ps.executeUpdate();
+            if(resultado !=0){
+                JOptionPane.showMessageDialog(null, "ALUMNO CARGADO EXITOSAMENTE");
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "NO SE PUDO CARGAR AL ALUMNO" + ex.getMessage());
         } finally {
