@@ -4,8 +4,11 @@ import Entidades.Alumno;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class AlumnoData {
@@ -128,6 +131,44 @@ public class AlumnoData {
 
     public void modificarAlumno(Alumno alumno){
          PreparedStatement ps = null;
-         String SQL  = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, ";
+         
+         String SQL  = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, fechaNacimiento=?"
+                 + "WHERE idAlumno=? ";
+        try {
+            ps=con.prepareStatement(SQL);
+            ps.setInt(1, alumno.getDni());
+            ps.setString(2, alumno.getApellido());
+            ps.setString(3, alumno.getNombre());
+            ps.setDate(4,Date.valueOf(alumno.getFechaNacimiento()));
+            ps.setInt(5, alumno.getIdAlumno());
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null," error al cambiar los datos del alumno"+ ex.getMessage());
+        }finally{
+             try {
+                 ps.close();
+             } catch (SQLException ex) {
+                 JOptionPane.showMessageDialog(null, "error al cerrar la conexion"+ex.getMessage());
+             }
+        }
+         
+    }
+    public void eliminarAlumno(int id){
+        PreparedStatement ps=null;
+        String SQL = "UPDATE alumno set estado = 0"
+                + "WHERE idAlumno= "+id;
+        try{
+          ps=con.prepareStatement(SQL);
+          
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null,"error al actualizar alumno" +ex.getMessage());
+        }finally{
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"error al cerrar la conexion" +ex.getMessage());
+            }
+        }
     }
 }
