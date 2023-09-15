@@ -34,7 +34,7 @@ public class MateriaData {
                 JOptionPane.showMessageDialog(null, "materia agregada exitosamente");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+           JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
         } finally {
             try {
                 ps.close();
