@@ -46,11 +46,11 @@ public class Menu extends javax.swing.JFrame {
         jDEscritorio.setLayout(jDEscritorioLayout);
         jDEscritorioLayout.setHorizontalGroup(
             jDEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 566, Short.MAX_VALUE)
+            .addGap(0, 680, Short.MAX_VALUE)
         );
         jDEscritorioLayout.setVerticalGroup(
             jDEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
+            .addGap(0, 382, Short.MAX_VALUE)
         );
 
         jMenu1.setText("ALUMNO");
@@ -116,7 +116,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        jDEscritorio.removeAll();
        jDEscritorio.repaint();
-       Alumnos ventanaAlumno = new Alumnos();
+       Alumno ventanaAlumno = new Alumno();
        ventanaAlumno.setVisible(true);
        jDEscritorio.add(ventanaAlumno);
        jDEscritorio.moveToFront(ventanaAlumno);
