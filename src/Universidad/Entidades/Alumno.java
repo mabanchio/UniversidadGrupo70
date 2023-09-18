@@ -1,4 +1,4 @@
-package Entidades;
+package Universidad.Entidades;
 
 import java.time.LocalDate;
 

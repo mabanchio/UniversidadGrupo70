@@ -1,5 +1,5 @@
 
-package Entidades;
+package Universidad.Entidades;
 
 public class Inscripcion {
     private int idInscripcion;

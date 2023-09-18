@@ -1,6 +1,7 @@
 package AccesoADatos;
 
-import Entidades.Alumno;
+
+import Universidad.Entidades.Alumno;
 import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
