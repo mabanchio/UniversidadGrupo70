@@ -116,7 +116,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        jDEscritorio.removeAll();
        jDEscritorio.repaint();
-       Alumno ventanaAlumno = new Alumno();
+       Alumnos ventanaAlumno = new Alumnos();
        ventanaAlumno.setVisible(true);
        jDEscritorio.add(ventanaAlumno);
        jDEscritorio.moveToFront(ventanaAlumno);
