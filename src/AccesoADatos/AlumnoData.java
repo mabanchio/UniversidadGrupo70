@@ -136,8 +136,8 @@ public class AlumnoData {
     public void modificarAlumno(Alumno alumno){
          PreparedStatement ps = null;
          
-         String SQL  = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, fechaNacimiento=?"
-                 + "WHERE idAlumno=? ";
+         String SQL  = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, fechaNacimiento= ?"
+                 + " WHERE idAlumno= ? ";
         try {
             ps=con.prepareStatement(SQL);
             ps.setInt(1, alumno.getDni());
@@ -145,7 +145,10 @@ public class AlumnoData {
             ps.setString(3, alumno.getNombre());
             ps.setDate(4,Date.valueOf(alumno.getFechaNacimiento()));
             ps.setInt(5, alumno.getIdAlumno());
-            
+           int resultado = ps.executeUpdate();
+            if(resultado!= 0){
+              JOptionPane.showMessageDialog(null," alumno eliminado exitosamente");
+          }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null," error al cambiar los datos del alumno"+ ex.getMessage());
         }finally{
@@ -159,12 +162,14 @@ public class AlumnoData {
     }
     public void eliminarAlumno(int id){
         PreparedStatement ps=null;
-        String SQL = "UPDATE alumno set estado = 0"
-                + "WHERE idAlumno= "+id;
+        String SQL = "UPDATE alumno set estado = 0 WHERE idAlumno= ? ";
         try{
           ps=con.prepareStatement(SQL);
-          
-            
+          ps.setInt(1, id);
+          int resultado = ps.executeUpdate();
+          if(resultado!= 0){
+              JOptionPane.showMessageDialog(null," alumno eliminado exitosamente");
+          }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null,"error al actualizar alumno" +ex.getMessage());
         }finally{

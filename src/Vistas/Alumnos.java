@@ -1,11 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package Vistas;
 
 import AccesoADatos.AlumnoData;
 import Universidad.Entidades.*;
+import java.sql.Date;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -63,6 +63,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
         jLabel5.setText("ESTADO");
 
         jBEliminar.setText("ELIMINAR");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jTDocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,6 +76,11 @@ public class Alumnos extends javax.swing.JInternalFrame {
         });
 
         jBGuardar.setText("GUARDAR");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
 
         jTApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,16 +127,18 @@ public class Alumnos extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(72, 72, 72)
+                                .addGap(41, 41, 41)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jDateFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                            .addComponent(jTDocumento, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jRBEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jDateFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                                             .addComponent(jTApellido, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTNombre, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jTNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTDocumento, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(18, 18, 18)
                                         .addComponent(jBBuscar))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jBNuevo)
@@ -134,12 +146,12 @@ public class Alumnos extends javax.swing.JInternalFrame {
                                 .addComponent(jBEliminar)
                                 .addGap(31, 31, 31)
                                 .addComponent(jBGuardar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                                 .addComponent(jBSalir))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(147, 147, 147)
                         .addComponent(jLabel1)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +181,7 @@ public class Alumnos extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jDateFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevo)
                     .addComponent(jBEliminar)
@@ -182,7 +194,23 @@ public class Alumnos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
-        // TODO add your handling code here:
+       Alumno alumnoNuevo  = new Alumno();
+       AlumnoData aluDataNuevo  = new AlumnoData();
+       if(!(jTDocumento.getText().isEmpty() ||jTApellido.getText().isEmpty() || jTNombre.getText().isEmpty() || jDateFechaNacimiento.getDate() == null )){
+       try{
+       alumnoNuevo.setDni(Integer.parseInt(jTDocumento.getText()));
+       alumnoNuevo.setApellido(jTApellido.getText());
+       alumnoNuevo.setNombre(jTNombre.getText());
+       alumnoNuevo.setFechaNacimiento(jDateFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+       alumnoNuevo.setEstado(jRBEstado.isSelected());
+       aluDataNuevo.guardarAlumno(alumnoNuevo);
+       borrarFormulario();
+       }catch(NumberFormatException ex){
+               JOptionPane.showMessageDialog(this, "debe ingresar solo numeros" + ex.getMessage());
+               }
+       }else{
+           JOptionPane.showMessageDialog(this, "debe completar todos los datos");
+       }
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jTDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTDocumentoActionPerformed
@@ -198,10 +226,32 @@ public class Alumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jRBEstadoActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
+       
         AlumnoData alumnoD = new AlumnoData();
         Alumno alumno = new Alumno();
         alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
+        jTApellido.setText(alumno.getApellido());
+        jTNombre.setText(alumno.getNombre());
+        jRBEstado.setSelected(alumno.isEstado());
+        jDateFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
+       
     }//GEN-LAST:event_jBBuscarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+         AlumnoData alumnoD = new AlumnoData();
+         Alumno alumno = new Alumno();
+         alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
+         alumnoD.eliminarAlumno(alumno.getIdAlumno());
+         borrarFormulario();
+    }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+         AlumnoData alumnoD = new AlumnoData();
+         Alumno alumno = new Alumno();
+        alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
+        alumnoD.modificarAlumno(alumno);
+        borrarFormulario();
+    }//GEN-LAST:event_jBGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -223,4 +273,13 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTDocumento;
     private javax.swing.JTextField jTNombre;
     // End of variables declaration//GEN-END:variables
+private void borrarFormulario(){
+    jTApellido.setText("");
+    jTDocumento.setText("");
+    jTNombre.setText("");
+    jRBEstado.setSelected(false);
+    jDateFechaNacimiento.setDate(null);
+}
+
+
 }
