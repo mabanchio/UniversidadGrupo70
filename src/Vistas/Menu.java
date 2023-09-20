@@ -51,6 +51,7 @@ public class Menu extends javax.swing.JFrame {
         );
 
         jMenu1.setText("ALUMNO");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jMenuItem1.setText("FORMULARIO ALUMNO");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -63,6 +64,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("MATERIA");
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jMenuItem2.setText("FORMULARIO MATERIA");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -75,6 +77,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("ADMINISTRACION");
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jMenuItem3.setText("MANEJO INSCRIPCIONES");
         jMenu3.add(jMenuItem3);
@@ -85,6 +88,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("CONSULTAS");
+        jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jMenuItem5.setText("ALUMNOS POR MATERIAS");
         jMenu4.add(jMenuItem5);
@@ -92,6 +96,7 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("SALIR");
+        jMenu5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
