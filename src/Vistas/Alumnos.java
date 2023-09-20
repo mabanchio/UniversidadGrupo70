@@ -246,10 +246,13 @@ public class Alumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-         AlumnoData alumnoD = new AlumnoData();
-         Alumno alumno = new Alumno();
-        alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
-        alumnoD.modificarAlumno(alumno);
+        AlumnoData alumnoD = new AlumnoData();
+        Alumno alumnoNuevo = new Alumno();
+        alumnoNuevo = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
+        alumnoNuevo.setApellido(jTApellido.getText());
+        alumnoNuevo.setNombre(jTNombre.getText());
+        alumnoNuevo.setFechaNacimiento(jDateFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        alumnoD.modificarAlumno(alumnoNuevo);
         borrarFormulario();
     }//GEN-LAST:event_jBGuardarActionPerformed
 

@@ -147,7 +147,7 @@ public class AlumnoData {
             ps.setInt(5, alumno.getIdAlumno());
            int resultado = ps.executeUpdate();
             if(resultado!= 0){
-              JOptionPane.showMessageDialog(null," alumno eliminado exitosamente");
+              JOptionPane.showMessageDialog(null," alumno modificado exitosamente");
           }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null," error al cambiar los datos del alumno"+ ex.getMessage());
