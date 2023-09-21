@@ -101,6 +101,7 @@ public class MateriaData {
         try {
             ps= con.prepareStatement(SQL);
             ps.setInt(1, id);
+            ps.executeUpdate();
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"error al borrar materia" +ex.getMessage());

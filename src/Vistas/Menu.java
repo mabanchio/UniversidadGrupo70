@@ -118,14 +118,19 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        jDEscritorio.removeAll();
        jDEscritorio.repaint();
-       Alumnos ventanaAlumno = new Alumnos();
+       Alumnos ventanaAlumno = new Alumnos();//Alumnos formulario de alumnos
        ventanaAlumno.setVisible(true);
        jDEscritorio.add(ventanaAlumno);
        jDEscritorio.moveToFront(ventanaAlumno);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        jDEscritorio.removeAll();
+        jDEscritorio.repaint();
+        Materias ventanaMateria = new Materias();//Materias se refiere al formulario de las materias
+        ventanaMateria.setVisible(true);
+        jDEscritorio.add(ventanaMateria);
+        jDEscritorio.moveToFront(ventanaMateria);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
