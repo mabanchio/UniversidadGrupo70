@@ -243,7 +243,7 @@ public class Materias extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
-        
+        this.dispose();
     }//GEN-LAST:event_jBSalirActionPerformed
 
 

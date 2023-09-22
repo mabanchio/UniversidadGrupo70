@@ -87,6 +87,6 @@ public class Alumno {
         } else {
             actividad = "inactivo";
         };
-        return idAlumno + ", " + dni + ", " + apellido + ", " + nombre + ", " + fechaNacimiento + ", " + actividad;
+        return idAlumno + "-" + dni + "-" + apellido + "-" + nombre + "-" + fechaNacimiento;
     }
 }
