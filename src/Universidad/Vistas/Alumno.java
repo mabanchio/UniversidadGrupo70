@@ -199,7 +199,7 @@ public class Alumno extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         try {
             AlumnoData alumnoBuscar = new AlumnoData();
-            Entidades.Alumno alumno = new Entidades.Alumno();
+            Universidad.Entidades.Alumno alumno = new Universidad.Entidades.Alumno();
             alumno = alumnoBuscar.buscarAlumnoPorDni(Integer.parseInt(jtfDni.getText()));
             ultimoIdAlumno = alumno.getIdAlumno();
             borrarFormulario();
@@ -223,7 +223,7 @@ public class Alumno extends javax.swing.JInternalFrame {
             try {
                 jrbEstado.setSelected(true);
                 AlumnoData alumnoAgregar = new AlumnoData();
-                Entidades.Alumno alumno = new Entidades.Alumno();
+                Universidad.Entidades.Alumno alumno = new Universidad.Entidades.Alumno();
                 alumno.setDni(Integer.parseInt(jtfDni.getText()));
                 alumno.setApellido(jtfApellido.getText());
                 alumno.setNombre(jtfNombre.getText());
@@ -245,7 +245,7 @@ public class Alumno extends javax.swing.JInternalFrame {
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         try {
             AlumnoData alumnoEliminar = new AlumnoData();
-            Entidades.Alumno alumno = new Entidades.Alumno();
+            Universidad.Entidades.Alumno alumno = new Universidad.Entidades.Alumno();
             alumno = alumnoEliminar.buscarAlumnoPorDni(Integer.parseInt(jtfDni.getText()));
             alumnoEliminar.eliminarAlumno(alumno.getIdAlumno());
             borrarFormulario();
@@ -261,7 +261,7 @@ public class Alumno extends javax.swing.JInternalFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         try {
             AlumnoData alumnoModificar = new AlumnoData();
-            Entidades.Alumno alumno = new Entidades.Alumno();
+            Universidad.Entidades.Alumno alumno = new Universidad.Entidades.Alumno();
             alumno = alumnoModificar.buscarAlumno(ultimoIdAlumno);
             alumno.setDni(Integer.parseInt(jtfDni.getText()));
             alumno.setApellido(jtfApellido.getText());

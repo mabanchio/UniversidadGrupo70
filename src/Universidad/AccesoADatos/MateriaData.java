@@ -1,6 +1,6 @@
 package Universidad.AccesoADatos;
 
-import Entidades.Materia;
+import Universidad.Entidades.Materia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

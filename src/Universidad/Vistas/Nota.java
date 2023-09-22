@@ -152,13 +152,13 @@ public class Nota extends javax.swing.JInternalFrame {
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
         try {
             InscripcionData inscripcionAlumno = new InscripcionData();
-            List<Entidades.Inscripcion> inscripciones = new ArrayList<>();
-            Entidades.Inscripcion inscripcion = new Entidades.Inscripcion();
+            List<Universidad.Entidades.Inscripcion> inscripciones = new ArrayList<>();
+            Universidad.Entidades.Inscripcion inscripcion = new Universidad.Entidades.Inscripcion();
             String alumno = (String) jcbAlumnos.getSelectedItem();
             String[] parts = alumno.split(",");
             inscripciones = inscripcionAlumno.obtenerInscripcionesPorAlumno(Integer.parseInt(parts[0].trim()));
             borrarFilas();
-            for (Entidades.Inscripcion registros : inscripciones) {
+            for (Universidad.Entidades.Inscripcion registros : inscripciones) {
                 modelo.addRow(new Object[]{
                     registros.getMateria().getIdMateria(),
                     registros.getMateria().getNombre(),
@@ -193,10 +193,10 @@ public class Nota extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 public void cargarCboAlumnos() {
         AlumnoData consultaAlumnos = new AlumnoData();
-        List<Entidades.Alumno> alumnos = new ArrayList<>();
+        List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
         alumnos = consultaAlumnos.listarAlumnos();
         jcbAlumnos.removeAllItems();
-        for (Entidades.Alumno registros : alumnos) {
+        for (Universidad.Entidades.Alumno registros : alumnos) {
             jcbAlumnos.addItem(registros.toString());
         }
     }

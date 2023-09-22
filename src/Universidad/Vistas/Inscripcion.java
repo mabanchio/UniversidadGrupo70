@@ -210,12 +210,12 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         jbAnularInscripcion.setEnabled(true);
         try {
             InscripcionData inscripcionConsulta = new InscripcionData();
-            List<Entidades.Inscripcion> inscripciones = new ArrayList<>();
+            List<Universidad.Entidades.Inscripcion> inscripciones = new ArrayList<>();
             String alumno = (String) jcbAlumnos.getSelectedItem();
             String[] parts = alumno.split(",");
             inscripciones = inscripcionConsulta.obtenerInscripcionesPorAlumno((Integer.parseInt(parts[0].trim())));
             borrarFilas();
-            for (Entidades.Inscripcion registros : inscripciones) {
+            for (Universidad.Entidades.Inscripcion registros : inscripciones) {
                 modelo.addRow(new Object[]{
                     registros.getMateria().getIdMateria(),
                     registros.getMateria().getNombre(),
@@ -233,12 +233,12 @@ public class Inscripcion extends javax.swing.JInternalFrame {
         jbAnularInscripcion.setEnabled(false);
         try {
             InscripcionData inscripcionConsulta = new InscripcionData();
-            List<Entidades.Materia> noInscriptas = new ArrayList<>();
+            List<Universidad.Entidades.Materia> noInscriptas = new ArrayList<>();
             String alumno = (String) jcbAlumnos.getSelectedItem();
             String[] parts = alumno.split(",");
             noInscriptas = inscripcionConsulta.materiasNoCursadas(Integer.parseInt(parts[0].trim()));
             borrarFilas();
-            for (Entidades.Materia registros : noInscriptas) {
+            for (Universidad.Entidades.Materia registros : noInscriptas) {
                 modelo.addRow(new Object[]{
                     registros.getIdMateria(),
                     registros.getNombre(),
@@ -254,9 +254,9 @@ public class Inscripcion extends javax.swing.JInternalFrame {
     private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
         try {
             InscripcionData inscribir = new InscripcionData();
-            Entidades.Inscripcion inscripcion = new Entidades.Inscripcion();
-            Entidades.Alumno alumno = new Entidades.Alumno();
-            Entidades.Materia materia = new Entidades.Materia();
+            Universidad.Entidades.Inscripcion inscripcion = new Universidad.Entidades.Inscripcion();
+            Universidad.Entidades.Alumno alumno = new Universidad.Entidades.Alumno();
+            Universidad.Entidades.Materia materia = new Universidad.Entidades.Materia();
             String cboAlumno = (String) jcbAlumnos.getSelectedItem();
             String[] parts = cboAlumno.split(",");
 
@@ -329,10 +329,10 @@ public class Inscripcion extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 public void cargarCboAlumnos() {
         AlumnoData consultaAlumnos = new AlumnoData();
-        List<Entidades.Alumno> alumnos = new ArrayList<>();
+        List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
         alumnos = consultaAlumnos.listarAlumnos();
         jcbAlumnos.removeAllItems();
-        for (Entidades.Alumno registros : alumnos) {
+        for (Universidad.Entidades.Alumno registros : alumnos) {
             jcbAlumnos.addItem(registros.toString());
         }
     }

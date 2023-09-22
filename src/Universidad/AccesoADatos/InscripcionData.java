@@ -1,8 +1,8 @@
 package Universidad.AccesoADatos;
 
-import Entidades.Alumno;
-import Entidades.Inscripcion;
-import Entidades.Materia;
+import Universidad.Entidades.Alumno;
+import Universidad.Entidades.Inscripcion;
+import Universidad.Entidades.Materia;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

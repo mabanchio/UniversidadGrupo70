@@ -184,7 +184,7 @@ public class Materia extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         try {
             MateriaData materiaBuscar = new MateriaData();
-            Entidades.Materia materia = new Entidades.Materia();
+            Universidad.Entidades.Materia materia = new Universidad.Entidades.Materia();
             materia = materiaBuscar.buscarMateria(Integer.parseInt(jtfCodigo.getText()));
             ultimoIdMateria = materia.getIdMateria();
             borrarFormulario();
@@ -207,7 +207,7 @@ public class Materia extends javax.swing.JInternalFrame {
         } else if (!(jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
             try {
                 MateriaData materiaAgregar = new MateriaData();
-                Entidades.Materia materia = new Entidades.Materia();
+                Universidad.Entidades.Materia materia = new Universidad.Entidades.Materia();
                 materia.setNombre(jtfNombre.getText());
                 materia.setAño(Integer.parseInt(jtfAño.getText()));
                 materia.setEstado(jrbEstado.isSelected());
@@ -241,7 +241,7 @@ public class Materia extends javax.swing.JInternalFrame {
         } else if (!(jtfCodigo.getText().isEmpty() || jtfNombre.getText().isEmpty() || jtfAño.getText().isEmpty() || !jrbEstado.isSelected())) {
             try {
                 MateriaData materiaGuardar = new MateriaData();
-                Entidades.Materia materia = new Entidades.Materia();
+                Universidad.Entidades.Materia materia = new Universidad.Entidades.Materia();
                 materia.setIdMateria(ultimoIdMateria);
                 materia.setNombre(jtfNombre.getText());
                 materia.setAño(Integer.parseInt(jtfAño.getText()));

@@ -140,12 +140,12 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
     private void jcbMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMateriasActionPerformed
         try {
             InscripcionData alumnosPorMateria = new InscripcionData();
-            List<Entidades.Alumno> alumnos = new ArrayList<>();
+            List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
             String materia = (String) jcbMaterias.getSelectedItem();
             String[] parts = materia.split(",");
             alumnos = alumnosPorMateria.obtenerAlumnosXMateria(Integer.parseInt(parts[0].trim()));
             borrarFilas();
-            for (Entidades.Alumno registros : alumnos) {
+            for (Universidad.Entidades.Alumno registros : alumnos) {
                 modelo.addRow(new Object[]{
                     registros.getIdAlumno(),
                     registros.getDni(),
@@ -171,10 +171,10 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 public void cargarCboMaterias() {
         MateriaData consultaMaterias = new MateriaData();
-        List<Entidades.Materia> materias = new ArrayList<>();
+        List<Universidad.Entidades.Materia> materias = new ArrayList<>();
         materias = consultaMaterias.listaMateria();
         jcbMaterias.removeAllItems();
-        for (Entidades.Materia registros : materias) {
+        for (Universidad.Entidades.Materia registros : materias) {
             jcbMaterias.addItem(registros.toString());
         }
     }
