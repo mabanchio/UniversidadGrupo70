@@ -9,7 +9,9 @@ import Universidad.AccesoADatos.InscripcionData;
 import Universidad.AccesoADatos.MateriaData;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,7 +32,7 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
         initComponents();
         armarCabecera();
         cargarCboMaterias();
-        
+
     }
 
     /**
@@ -143,7 +145,7 @@ public class AlumnosXMateria extends javax.swing.JInternalFrame {
             String[] parts = materia.split(",");
             alumnos = alumnosPorMateria.obtenerAlumnosXMateria(Integer.parseInt(parts[0].trim()));
             borrarFilas();
-            for(Entidades.Alumno registros : alumnos){
+            for (Entidades.Alumno registros : alumnos) {
                 modelo.addRow(new Object[]{
                     registros.getIdAlumno(),
                     registros.getDni(),
@@ -183,6 +185,20 @@ public void cargarCboMaterias() {
         modelo.addColumn("Apellido");
         modelo.addColumn("Nombre");
         jtAlumnos.setModel(modelo);
+
+        //Establecer ancho de columnas
+        jtAlumnos.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jtAlumnos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jtAlumnos.getColumnModel().getColumn(2).setPreferredWidth(150);
+        jtAlumnos.getColumnModel().getColumn(3).setPreferredWidth(150);
+
+        // Crear un renderizador de celdas para centrar el contenido
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i <= 3; i++) {
+            jtAlumnos.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+
+        }
     }
 
     private void borrarFilas() {

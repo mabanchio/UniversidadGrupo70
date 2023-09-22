@@ -10,7 +10,9 @@ import Universidad.AccesoADatos.InscripcionData;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -278,7 +280,7 @@ public class Inscripcion extends javax.swing.JInternalFrame {
 
             //Efectivizar la inscripción
             inscribir.guardarInscripcion(inscripcion);
-            
+
             //Actualizar la vista
             jrbNoInscriptas.doClick();
 
@@ -302,9 +304,9 @@ public class Inscripcion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbAnularInscripcionActionPerformed
 
     private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
-        if(jrbInscriptas.isSelected()){
+        if (jrbInscriptas.isSelected()) {
             jrbInscriptas.doClick();
-        } else if(jrbNoInscriptas.isSelected()){
+        } else if (jrbNoInscriptas.isSelected()) {
             jrbNoInscriptas.doClick();
         }
     }//GEN-LAST:event_jcbAlumnosActionPerformed
@@ -340,6 +342,18 @@ public void cargarCboAlumnos() {
         modelo.addColumn("Nombre");
         modelo.addColumn("Año");
         jtMaterias.setModel(modelo);
+
+        //Establecer ancho de columnas
+        jtMaterias.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jtMaterias.getColumnModel().getColumn(1).setPreferredWidth(150);
+        jtMaterias.getColumnModel().getColumn(2).setPreferredWidth(50);
+
+        // Crear un renderizador de celdas para centrar el contenido
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i <= 2; i++) {
+            jtMaterias.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
 
     private void borrarFilas() {

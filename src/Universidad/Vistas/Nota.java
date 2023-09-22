@@ -9,7 +9,9 @@ import Universidad.AccesoADatos.AlumnoData;
 import Universidad.AccesoADatos.InscripcionData;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -204,6 +206,18 @@ public void cargarCboAlumnos() {
         modelo.addColumn("Nombre");
         modelo.addColumn("Nota");
         jtMaterias.setModel(modelo);
+
+        //Establecer ancho de columnas
+        jtMaterias.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jtMaterias.getColumnModel().getColumn(1).setPreferredWidth(150);
+        jtMaterias.getColumnModel().getColumn(2).setPreferredWidth(50);
+
+        // Crear un renderizador de celdas para centrar el contenido
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i <= 2; i++) {
+            jtMaterias.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
 
     private void borrarFilas() {
