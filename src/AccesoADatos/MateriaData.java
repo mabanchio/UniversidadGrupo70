@@ -75,24 +75,30 @@ public class MateriaData {
         }
         return materia;
     }
-    public void modificarMateria(Materia materia){
-        PreparedStatement ps=null;
-        String SQL= " UPDATE materia SET nombre=?, año=? WHERE idMateria=? ";
+    public void modificarMateria(Materia materia) {
+        PreparedStatement ps = null;
+        String SQL = " UPDATE materia SET nombre=?, año=? WHERE idMateria=? ";
         try {
-            ps=con.prepareStatement(SQL);
+            ps = con.prepareStatement(SQL);
             ps.setString(1, materia.getNombre());
-             ps.setInt(2 , materia.getAño());
-             ps.setInt(3 , materia.getIdMateria());
+            ps.setInt(2, materia.getAño());
+            ps.setInt(3, materia.getIdMateria());
+            int registro=ps.executeUpdate();
+            if(registro>0){
+                JOptionPane.showMessageDialog(null, "materia modificada");
+            }else{
+               JOptionPane.showMessageDialog(null, "no se pudo modificar la materia");  
+            }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"error al actualizar materia" +ex.getMessage());
-        }finally{
+            JOptionPane.showMessageDialog(null, "error al actualizar materia" + ex.getMessage());
+        } finally {
             try {
                 ps.close();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar sesion"+ex.getMessage());
+                JOptionPane.showMessageDialog(null, "error al cerrar sesion" + ex.getMessage());
             }
         }
-        
+
     }
     public void eliminarMateria(int id){
        PreparedStatement ps=null;

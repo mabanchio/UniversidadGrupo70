@@ -34,7 +34,7 @@ public class Materias extends javax.swing.JInternalFrame {
         jREstado = new javax.swing.JRadioButton();
         jBNuevo = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
-        jBGuardar = new javax.swing.JButton();
+        jBModificar = new javax.swing.JButton();
         jBSalir = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -81,14 +81,19 @@ public class Materias extends javax.swing.JInternalFrame {
             }
         });
 
-        jBGuardar.setText("GUARDAR");
-        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jBModificar.setText("MODIFICAR");
+        jBModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBGuardarActionPerformed(evt);
+                jBModificarActionPerformed(evt);
             }
         });
 
         jBSalir.setText("SALIR");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,14 +115,14 @@ public class Materias extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBEliminar)
                         .addGap(42, 42, 42)
-                        .addComponent(jBGuardar)
+                        .addComponent(jBModificar)
                         .addGap(25, 25, 25))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTNombre)
@@ -138,17 +143,17 @@ public class Materias extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
                     .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscar))
+                    .addComponent(jBBuscar)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -160,11 +165,11 @@ public class Materias extends javax.swing.JInternalFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBNuevo)
                             .addComponent(jBEliminar)
-                            .addComponent(jBGuardar)
+                            .addComponent(jBModificar)
                             .addComponent(jBSalir))
                         .addGap(34, 34, 34))))
         );
@@ -219,16 +224,33 @@ public class Materias extends javax.swing.JInternalFrame {
         materiaD.eliminarMateria(materia.getIdMateria());
     }//GEN-LAST:event_jBEliminarActionPerformed
 
-    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-       
+    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
+        MateriaData materiaD = new MateriaData();
+        Materia materia = new Materia();
+        if (!(jTNombre.getText().isEmpty() || jTAño.getText().isEmpty() || jTCodigo.getText().isEmpty())) {
+            try {
+                materia.setNombre(jTNombre.getText());
+                materia.setAño(Integer.parseInt(jTAño.getText()));
+                materia.setIdMateria(Integer.parseInt(jTCodigo.getText()));
+                materiaD.modificarMateria(materia);
+                borrarFormulario();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "en casillero año y codigo completar solo con numeros");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "DEBE COMPLETAR TODOS LOS CAMPOS");
+        }
+    }//GEN-LAST:event_jBModificarActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
         
-    }//GEN-LAST:event_jBGuardarActionPerformed
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBEliminar;
-    private javax.swing.JButton jBGuardar;
+    private javax.swing.JButton jBModificar;
     private javax.swing.JButton jBNuevo;
     private javax.swing.JButton jBSalir;
     private javax.swing.JLabel jLabel1;
