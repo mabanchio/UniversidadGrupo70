@@ -53,6 +53,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu1.setText("ALUMNO");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem1.setText("FORMULARIO ALUMNO");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +67,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu2.setText("MATERIA");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem2.setText("FORMULARIO MATERIA");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,9 +81,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu3.setText("ADMINISTRACION");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem3.setText("MANEJO INSCRIPCIONES");
         jMenu3.add(jMenuItem3);
 
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem4.setText("MANIPULACION DE NOTAS");
         jMenu3.add(jMenuItem4);
 
@@ -90,6 +94,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.setText("CONSULTAS");
         jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem5.setText("ALUMNOS POR MATERIAS");
         jMenu4.add(jMenuItem5);
 
