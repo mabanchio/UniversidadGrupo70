@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class AlumnoData {
@@ -75,7 +73,7 @@ public class AlumnoData {
     }
 
     public Alumno buscarAlumnoPorDni(int dni) {
-        Alumno alumno = new Alumno();
+        Alumno alumno = null;
         String SQL = "SELECT * FROM alumno WHERE dni  = ? AND estado = 1";
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -84,6 +82,7 @@ public class AlumnoData {
             ps.setInt(1, dni);
             rs = ps.executeQuery();
             if (rs.next()) {
+                alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni((dni));
                 alumno.setApellido(rs.getString("apellido"));
