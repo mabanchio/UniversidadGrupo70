@@ -106,13 +106,13 @@ public class AlumnoData {
     public List<Alumno> listarAlumno() {
         PreparedStatement ps = null;
         List<Alumno> alumnos = new ArrayList<>();
-        Alumno alumno = new Alumno();
         String SQL = "SELECT * FROM alumno WHERE estado = 1";
 
         try {
             ps = con.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                Alumno alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("idAlumno"));
                 alumno.setDni(rs.getInt("dni"));
                 alumno.setApellido(rs.getString("apellido"));
