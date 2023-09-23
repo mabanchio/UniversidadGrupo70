@@ -236,14 +236,22 @@ public class Alumnos extends javax.swing.JInternalFrame {
        
         AlumnoData alumnoD = new AlumnoData();
         Alumno alumno = new Alumno();
+        if(!(jTDocumento.getText().isEmpty())){
+            try{
         alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
         jTApellido.setText(alumno.getApellido());
         jTNombre.setText(alumno.getNombre());
         jRBEstado.setSelected(alumno.isEstado());
         jDateFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
-       
+       }catch(NumberFormatException ex){
+               JOptionPane.showMessageDialog(this, "debe ingresar solo numeros" + ex.getMessage());
+               }
+       }else{
+           JOptionPane.showMessageDialog(this, "debe llenar el compo documento");
+       }
+     
     }//GEN-LAST:event_jBBuscarActionPerformed
-
+    
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
          AlumnoData alumnoD = new AlumnoData();
          Alumno alumno = new Alumno();
