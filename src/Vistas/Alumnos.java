@@ -235,21 +235,24 @@ public class Alumnos extends javax.swing.JInternalFrame {
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
        
         AlumnoData alumnoD = new AlumnoData();
-        Alumno alumno = new Alumno();
+        Alumno alumno = null;
         if(!(jTDocumento.getText().isEmpty())){
             try{
+                if(alumno != null){
         alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
         jTApellido.setText(alumno.getApellido());
         jTNombre.setText(alumno.getNombre());
         jRBEstado.setSelected(alumno.isEstado());
         jDateFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
+                }else{
+                    JOptionPane.showMessageDialog(this, "no se encontro ningun alumno con ese documento" );
+                }
        }catch(NumberFormatException ex){
                JOptionPane.showMessageDialog(this, "debe ingresar solo numeros" + ex.getMessage());
                }
        }else{
            JOptionPane.showMessageDialog(this, "debe llenar el compo documento");
        }
-     
     }//GEN-LAST:event_jBBuscarActionPerformed
     
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
