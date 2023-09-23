@@ -233,26 +233,26 @@ public class Alumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jRBEstadoActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
-       
         AlumnoData alumnoD = new AlumnoData();
-        Alumno alumno = null;
-        if(!(jTDocumento.getText().isEmpty())){
-            try{
-                if(alumno != null){
-        alumno = alumnoD.buscarAlumnoPorDni(Integer.parseInt(jTDocumento.getText()));
-        jTApellido.setText(alumno.getApellido());
-        jTNombre.setText(alumno.getNombre());
-        jRBEstado.setSelected(alumno.isEstado());
-        jDateFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
-                }else{
-                    JOptionPane.showMessageDialog(this, "no se encontro ningun alumno con ese documento" );
+        Alumno alumno = new Alumno();
+        if (!(jTDocumento.getText().isEmpty())) {
+            try {
+                int documento = Integer.parseInt(jTDocumento.getText());
+                alumno = alumnoD.buscarAlumnoPorDni(documento);
+                if (alumno != null) {
+                    jTApellido.setText(alumno.getApellido());
+                    jTNombre.setText(alumno.getNombre());
+                    jRBEstado.setSelected(alumno.isEstado());
+                    jDateFechaNacimiento.setDate(Date.valueOf(alumno.getFechaNacimiento()));
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró ningún alumno con ese documento.");
                 }
-       }catch(NumberFormatException ex){
-               JOptionPane.showMessageDialog(this, "debe ingresar solo numeros" + ex.getMessage());
-               }
-       }else{
-           JOptionPane.showMessageDialog(this, "debe llenar el compo documento");
-       }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar solo números." + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe llenar el campo documento.");
+        }
     }//GEN-LAST:event_jBBuscarActionPerformed
     
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
