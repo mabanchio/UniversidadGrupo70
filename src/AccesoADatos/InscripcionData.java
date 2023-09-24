@@ -19,18 +19,18 @@ public class InscripcionData {
     MateriaData matData;
     AlumnoData aluData;
 
-    public InscripcionData(Connection con, MateriaData matData, AlumnoData aluData) {
+    public InscripcionData() {
         con = Conexion.getConexion();
-        this.matData = matData;
-        this.aluData = aluData;
+        matData = new MateriaData();
+        aluData = new AlumnoData();
     }
 
-    public void guardarInscripcion(Inscripcion insc) {
-        String SQL = "INSERT INTO inscripcion (nota, idAlumno, idMateria) VALUES (?, ?, ?)";
-        PreparedStatement ps = null;
+    
 
+    public void guardarInscripcion(Inscripcion insc) {
         try {
-            ps = con.prepareStatement(SQL);
+            String SQL = "INSERT INTO inscripcion (nota, idAlumno, idMateria) VALUES (?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(SQL);
             ps.setDouble(1, insc.getNota());
             ps.setInt(2, insc.getAlumno().getIdAlumno());
             ps.setInt(3, insc.getMateria().getIdMateria());
@@ -38,15 +38,10 @@ public class InscripcionData {
             if (resultado != 0) {
                 JOptionPane.showMessageDialog(null, "inscripcion agregada exitosamente");
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
-        } finally {
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-            }
-        }
+        } 
     }
 
     public List<Inscripcion> obtenerInscripciones() {
@@ -95,7 +90,9 @@ public class InscripcionData {
         List<Inscripcion> inscripciones = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String SQL = "SELECT * FROM alumno a, materia m , inscripcion i WHERE i.idMateria = m.idMateria AND i.idAlumno = a.idAlumno AND a.idAlumno = ?";
+        String SQL = "SELECT * FROM alumno a, materia m , inscripcion i "
+                + "WHERE i.idMateria = m.idMateria AND i.idAlumno = a.idAlumno "
+                + "AND a.idAlumno = ? ORDER BY m.idMateria";
 
         try {
             ps = con.prepareStatement(SQL);
@@ -125,6 +122,7 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
         } finally {
             try {
+                rs.close();
                 ps.close();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
@@ -135,31 +133,27 @@ public class InscripcionData {
 
     public List<Materia> obtenerMateriasCursadas(int id) {
         List<Materia> materias = new ArrayList<>();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        String SQL = "SELECT * FROM  materia m , inscripcion i WHERE i.idMateria = m.idMateria AND i.idAlumno = ?";
-
+        
         try {
-            ps = con.prepareStatement(SQL);
+            String SQL = "SELECT * FROM  materia m , inscripcion i WHERE i.idMateria = "
+                + "m.idMateria AND i.idAlumno = ? ORDER BY m.idMateria";
+            PreparedStatement ps = con.prepareStatement(SQL);
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            Materia materia = new Materia();
+            ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
+                Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt(1));
                 materia.setNombre(rs.getString(2));
                 materia.setAño(rs.getInt(3));
                 materia.setEstado(rs.getBoolean(4));
                 materias.add(materia);
             }
+            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
-        } finally {
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-            }
-        }
+        } 
         return materias;
     }
 
@@ -167,40 +161,36 @@ public class InscripcionData {
 
         List<Materia> materias = new ArrayList<>();
         //String SQL = "SELECT m.* FROM materia m LEFT JOIN (SELECT DISTINCT idMateria FROM inscripcion WHERE idAlumno = ?) inscrito ON m.idMateria = inscrito.idMateria WHERE inscrito.idMateria IS NULL AND m.estado = 1;";
-        String SQL2 = " SELECT * FROM materia m WHERE m.idMateria NOT IN (SELECT i.idMateria FROM inscripcion i WHERE i.idAlumno = ?)";
+        String SQL2 = " SELECT * FROM materia m WHERE m.idMateria NOT IN "
+                + "(SELECT i.idMateria FROM inscripcion i WHERE i.idAlumno = ?) "
+                + "ORDER BY m.idMateria";
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             ps = con.prepareStatement(SQL2);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            Materia materia = new Materia();
+            
             while (rs.next()) {
+                Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt(1));
                 materia.setNombre(rs.getString(2));
                 materia.setAño(rs.getInt(3));
                 materia.setEstado(rs.getBoolean(4));
                 materias.add(materia);
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
-        } finally {
-            try {
-                rs.close();
-                ps.close();
-                con.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-        }
+        } 
         return materias;
     }
-    }
+    
     
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
-        String SQL = "DELETE FROM inscripciones WHERE idAlumno = ? AND idMateria = ?";
-        PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement(SQL);
+            String SQL = "DELETE FROM inscripcion WHERE idAlumno = ? AND idMateria = ?";
+            PreparedStatement ps = con.prepareStatement(SQL);
             ps.setInt(1, idAlumno);
             ps.setInt(2, idMateria);
             int registro = ps.executeUpdate();
@@ -209,23 +199,16 @@ public class InscripcionData {
             }else{
                 JOptionPane.showMessageDialog(null, "no se elimino la inscripcion" );
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error al buscar la tabla de inscripciones" + ex.getMessage());
-        }finally{
-            try {
-                ps.close();
-                con.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-            }
         }
     }
     
     public void actualizarNota(int idAlumno, int idMateria, double nota){
-        String SQL = "UPDATE inscripcion SET nota= ? WHERE idAlumno = ? AND idMateria = ? ";
-        PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement(SQL);
+            String SQL = "UPDATE inscripcion SET nota= ? WHERE idAlumno = ? AND idMateria = ? ";
+            PreparedStatement ps = con.prepareStatement(SQL);
              ps.setDouble(1,nota);
              ps.setInt(2, idAlumno);
              ps.setInt(3, idMateria);
@@ -235,30 +218,23 @@ public class InscripcionData {
             }else{
                 JOptionPane.showMessageDialog(null, "no se pudo modificar la nota" );
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error al buscar la tabla de inscripciones" + ex.getMessage());
-        }finally{
-            try {
-                ps.close();
-                con.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-            }
         }
     }
     
-    public List<Alumno> obtenerAlumnos(int idMateria){
-        List<Alumno> alumnos = new ArrayList<>();
-        String SQL = "SELECT alumno.* FROM alumno JOIN inscripcion ON alumno.idAlumno = inscripcion.idAlumno WHERE inscripcion.idMateria = ? ";
-        PreparedStatement ps = null;
-        ResultSet rs  =null;
-        Alumno alumno = new Alumno();
-        
+    public List<Alumno> obtenerAlumnosPorMateria(int idMateria){
+       List<Alumno> alumnos = new ArrayList<>();
         try {
-            ps= con.prepareStatement(SQL);
+            String SQL = "SELECT alumno.* FROM alumno JOIN inscripcion ON "
+                    + "alumno.idAlumno = inscripcion.idAlumno WHERE inscripcion.idMateria = ? "
+                    + "ORDER BY alumno.idAlumno";
+            PreparedStatement ps= con.prepareStatement(SQL);
             ps.setInt(1, idMateria);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while(rs.next()){
+                Alumno alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt(1)); // idAlumno
                 alumno.setDni(rs.getInt(2));
                 alumno.setApellido(rs.getString(3));
@@ -267,16 +243,9 @@ public class InscripcionData {
                 alumno.setEstado(rs.getBoolean(6));
                 alumnos.add(alumno);
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "no se pudo establecer la conexion a la base de datos");
-        }finally{
-            try {
-                rs.close();
-                ps.close();
-                con.close();
-            } catch (SQLException ex) {
-                 JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-            }
         }
         return alumnos;
 }

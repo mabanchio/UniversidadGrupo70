@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author NETBOOK G5
  */
-public class Alumnos extends javax.swing.JInternalFrame {
+public class ManejoAlumnos extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Alumno
      */
-    public Alumnos() {
+    public ManejoAlumnos() {
         initComponents();
     }
 

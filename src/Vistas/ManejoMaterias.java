@@ -5,10 +5,10 @@ import AccesoADatos.MateriaData;
 import Universidad.Entidades.Materia;
 import javax.swing.JOptionPane;
 
-public class Materias extends javax.swing.JInternalFrame {
+public class ManejoMaterias extends javax.swing.JInternalFrame {
 
    
-    public Materias() {
+    public ManejoMaterias() {
         initComponents();
     }
 

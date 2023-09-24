@@ -12,6 +12,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -36,6 +37,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +49,7 @@ public class Menu extends javax.swing.JFrame {
         );
         jDEscritorioLayout.setVerticalGroup(
             jDEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         jMenu1.setText("ALUMNO");
@@ -80,6 +82,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu3.setText("ADMINISTRACION");
         jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem3.setText("MANEJO INSCRIPCIONES");
@@ -92,6 +99,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem4.setText("MANIPULACION DE NOTAS");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuBar1.add(jMenu3);
@@ -101,12 +113,31 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem5.setText("ALUMNOS POR MATERIAS");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem5);
 
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("SALIR");
         jMenu5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem6.setText("CERRAR PROGRAMA");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem6);
+
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -128,7 +159,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        jDEscritorio.removeAll();
        jDEscritorio.repaint();
-       Alumnos ventanaAlumno = new Alumnos();//Alumnos formulario de alumnos
+       ManejoAlumnos ventanaAlumno = new ManejoAlumnos();//Alumnos formulario de alumnos
        ventanaAlumno.setVisible(true);
        jDEscritorio.add(ventanaAlumno);
        jDEscritorio.moveToFront(ventanaAlumno);
@@ -137,7 +168,7 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         jDEscritorio.removeAll();
         jDEscritorio.repaint();
-        Materias ventanaMateria = new Materias();//Materias se refiere al formulario de las materias
+        ManejoMaterias ventanaMateria = new ManejoMaterias();//Materias se refiere al formulario de las materias
         ventanaMateria.setVisible(true);
         jDEscritorio.add(ventanaMateria);
         jDEscritorio.moveToFront(ventanaMateria);
@@ -151,6 +182,42 @@ public class Menu extends javax.swing.JFrame {
         jDEscritorio.add(ventanaManejoInscripciones);
         jDEscritorio.moveToFront(ventanaManejoInscripciones);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        jDEscritorio.removeAll();
+        jDEscritorio.repaint();
+        CargaDeNotas ventanaNotas = new CargaDeNotas();
+        ventanaNotas.setVisible(true);
+        jDEscritorio.add(ventanaNotas);
+        jDEscritorio.moveToFront(ventanaNotas);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        jDEscritorio.removeAll();
+        jDEscritorio.repaint();
+        AlumnosPorMateria ventanaAlumXMat = new AlumnosPorMateria();
+        ventanaAlumXMat.setVisible(true);
+        jDEscritorio.add(ventanaAlumXMat);
+        jDEscritorio.moveToFront(ventanaAlumXMat);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,6 +267,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

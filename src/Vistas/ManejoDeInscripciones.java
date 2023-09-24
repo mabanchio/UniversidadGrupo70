@@ -6,7 +6,9 @@
 package Vistas;
 
 import AccesoADatos.AlumnoData;
-import Universidad.Entidades.Alumno;
+import AccesoADatos.InscripcionData;
+import Universidad.Entidades.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,7 +24,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     public ManejoDeInscripciones() {
         initComponents();
         cargarComboAlumnos();
-        armarCabevera();
+        armarCabecera();
         
     }
 
@@ -35,12 +37,13 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jCBAlumnos = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jRINcriptas = new javax.swing.JRadioButton();
+        jRIncriptas = new javax.swing.JRadioButton();
         jRNoInscriptas = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTMaterias = new javax.swing.JTable();
@@ -61,14 +64,21 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
 
         jLabel3.setText("LISTADO DE MATERIAS");
 
-        jRINcriptas.setText("MATERIAS INSCRIPTAS");
-        jRINcriptas.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(jRIncriptas);
+        jRIncriptas.setText("MATERIAS INSCRIPTAS");
+        jRIncriptas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRINcriptasActionPerformed(evt);
+                jRIncriptasActionPerformed(evt);
             }
         });
 
+        buttonGroup1.add(jRNoInscriptas);
         jRNoInscriptas.setText("MATERIAS NO INSCRIPTAS");
+        jRNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRNoInscriptasActionPerformed(evt);
+            }
+        });
 
         jTMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -96,6 +106,11 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTMaterias);
 
         jBInscribir.setText("INSCRIBIR");
+        jBInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBInscribirActionPerformed(evt);
+            }
+        });
 
         jBAnularINscripcion.setText("ANULAR INSCRIPCION");
         jBAnularINscripcion.addActionListener(new java.awt.event.ActionListener() {
@@ -105,6 +120,11 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         });
 
         jBSalir.setText("SALIR");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,7 +153,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
                         .addGap(25, 25, 25))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(91, 91, 91)
-                .addComponent(jRINcriptas)
+                .addComponent(jRIncriptas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jRNoInscriptas)
                 .addGap(73, 73, 73))
@@ -162,7 +182,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRINcriptas)
+                    .addComponent(jRIncriptas)
                     .addComponent(jRNoInscriptas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,16 +201,99 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jCBAlumnosActionPerformed
 
-    private void jRINcriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRINcriptasActionPerformed
+    private void jRIncriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRIncriptasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRINcriptasActionPerformed
+        jRIncriptas.setEnabled(false);
+        jRNoInscriptas.setEnabled(true);
+         try {
+            InscripcionData inscripcionD = new InscripcionData();
+            List<Materia> materiasInscriptas;
+            String alumno = (String) jCBAlumnos.getSelectedItem();
+            String[] partes = alumno.split(",");
+            int id=Integer.parseInt(partes[0]);
+            materiasInscriptas = inscripcionD.obtenerMateriasCursadas(id);
+            borrarFilas();
+            for (Materia registros : materiasInscriptas) {
+                modelo.addRow(new Object[]{
+                    registros.getIdMateria(),
+                    registros.getNombre(),
+                    registros.getAño()
+                });
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
+        }
+    }//GEN-LAST:event_jRIncriptasActionPerformed
 
     private void jBAnularINscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAnularINscripcionActionPerformed
         // TODO add your handling code here:
+            InscripcionData borrarInscripcion = new InscripcionData();
+            String cboxAlumno = (String) jCBAlumnos.getSelectedItem();
+            String[] partes = cboxAlumno.split(",");
+            int idAlumno = Integer.parseInt(partes[0].trim());
+            int idMateria = (int) (modelo.getValueAt(jTMaterias.getSelectedRow(), 0));
+            borrarInscripcion.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
+            jRNoInscriptas.doClick();
     }//GEN-LAST:event_jBAnularINscripcionActionPerformed
+
+    private void jRNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRNoInscriptasActionPerformed
+        // TODO add your handling code here:
+        jRIncriptas.setEnabled(true);
+        jRNoInscriptas.setEnabled(false);
+         try {
+            InscripcionData inscripcionD = new InscripcionData();
+            List<Materia> materiasNoInscriptas;
+            String alumno = (String) jCBAlumnos.getSelectedItem();
+            String[] partes = alumno.split(",");
+            int id=Integer.parseInt(partes[0]);
+            materiasNoInscriptas = inscripcionD.obtenerMateriasNoCursadas(id);
+            borrarFilas();
+            for (Materia registros : materiasNoInscriptas) {
+                modelo.addRow(new Object[]{
+                    registros.getIdMateria(),
+                    registros.getNombre(),
+                    registros.getAño()
+                });
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error! " + e.getMessage());
+        } 
+    }//GEN-LAST:event_jRNoInscriptasActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInscribirActionPerformed
+        // TODO add your handling code here:
+            InscripcionData inscribir = new InscripcionData();
+            Inscripcion inscripcion = new Inscripcion();
+            Alumno alumno = new Alumno();
+            Materia materia = new Materia();
+            String cboxAlumno = (String) jCBAlumnos.getSelectedItem();
+            String[] partes = cboxAlumno.split(",");
+
+            materia.setIdMateria((int) (modelo.getValueAt(jTMaterias.getSelectedRow(), 0)));
+            materia.setNombre((String) modelo.getValueAt(jTMaterias.getSelectedRow(), 1));
+            materia.setAño((int)(modelo.getValueAt(jTMaterias.getSelectedRow(), 2)));
+            materia.setEstado(true);
+            alumno.setIdAlumno(Integer.parseInt(partes[0].trim()));
+            alumno.setDni(Integer.parseInt(partes[1].trim()));
+            alumno.setApellido(partes[2].trim());
+            alumno.setNombre(partes[3].trim());
+            alumno.setFechaNacimiento(Date.valueOf(partes[4].trim()).toLocalDate());
+            alumno.setEstado(true);
+            inscripcion.setNota(0.0);
+            inscripcion.setAlumno(alumno);
+            inscripcion.setMateria(materia);
+            inscribir.guardarInscripcion(inscripcion);
+            jRIncriptas.doClick();
+    }//GEN-LAST:event_jBInscribirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBAnularINscripcion;
     private javax.swing.JButton jBInscribir;
     private javax.swing.JButton jBSalir;
@@ -198,13 +301,13 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JRadioButton jRINcriptas;
+    private javax.swing.JRadioButton jRIncriptas;
     private javax.swing.JRadioButton jRNoInscriptas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTMaterias;
     // End of variables declaration//GEN-END:variables
-public void armarCabevera(){
+public void armarCabecera(){
     modelo.addColumn("ID");
     modelo.addColumn("NOMBRE");
     modelo.addColumn("AÑO");
@@ -214,11 +317,16 @@ public void cargarComboAlumnos(){
     AlumnoData alumnoD = new AlumnoData();
     List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
     alumnos = alumnoD.listarAlumno();
-    //jCBAlumnos.removeAll();
+    jCBAlumnos.removeAll();
     for(Universidad.Entidades.Alumno alu:alumnos){
-        System.out.println(alu.toString());
         jCBAlumnos.addItem(alu.toString());
     }
 }
+private void borrarFilas() {
+        int f = jTMaterias.getRowCount() - 1;
+        for (; f >= 0; f--) {
+            modelo.removeRow(f);
+        }
+    }
 }
 
