@@ -19,6 +19,12 @@ public class InscripcionData {
     MateriaData matData;
     AlumnoData aluData;
 
+    public InscripcionData() {
+        con = Conexion.getConexion();
+        matData = new MateriaData();
+        aluData = new AlumnoData();
+    }
+
     public InscripcionData(Connection con, MateriaData matData, AlumnoData aluData) {
         con = Conexion.getConexion();
         this.matData = matData;
@@ -174,27 +180,30 @@ public class InscripcionData {
             ps = con.prepareStatement(SQL2);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            Materia materia = new Materia();
             while (rs.next()) {
+                Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt(1));
                 materia.setNombre(rs.getString(2));
                 materia.setAño(rs.getInt(3));
                 materia.setEstado(rs.getBoolean(4));
                 materias.add(materia);
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error de conexion" + ex.getMessage());
-        } finally {
-            try {
-                rs.close();
-                ps.close();
-                con.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
-        }
+            
+       }
+// finally {
+//            try {
+//                rs.close();
+//                ps.close();
+//                con.close();
+//            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "error al cerrar la conexion " + ex.getMessage());
+//        }
         return materias;
     }
-    }
+    
     
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
         String SQL = "DELETE FROM inscripciones WHERE idAlumno = ? AND idMateria = ?";

@@ -6,7 +6,9 @@
 package Vistas;
 
 import AccesoADatos.AlumnoData;
+import AccesoADatos.InscripcionData;
 import Universidad.Entidades.Alumno;
+import Universidad.Entidades.Materia;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,11 +21,12 @@ import javax.swing.table.DefaultTableModel;
 public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modelo = new DefaultTableModel();
+
     public ManejoDeInscripciones() {
         initComponents();
         cargarComboAlumnos();
         armarCabevera();
-        
+
     }
 
     /**
@@ -35,6 +38,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
@@ -61,6 +65,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
 
         jLabel3.setText("LISTADO DE MATERIAS");
 
+        buttonGroup1.add(jRINcriptas);
         jRINcriptas.setText("MATERIAS INSCRIPTAS");
         jRINcriptas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,7 +73,13 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
             }
         });
 
+        buttonGroup1.add(jRNoInscriptas);
         jRNoInscriptas.setText("MATERIAS NO INSCRIPTAS");
+        jRNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRNoInscriptasActionPerformed(evt);
+            }
+        });
 
         jTMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,7 +189,10 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnosActionPerformed
-        
+    if (!jRINcriptas.isSelected()) {
+    jRINcriptas.setSelected(true);
+}
+
     }//GEN-LAST:event_jCBAlumnosActionPerformed
 
     private void jRINcriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRINcriptasActionPerformed
@@ -189,8 +203,26 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBAnularINscripcionActionPerformed
 
+    private void jRNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRNoInscriptasActionPerformed
+        InscripcionData inscripcionD = new InscripcionData();
+        List<Materia> materiasNoInscriptas = new ArrayList<>();
+        String idalumno = (String) jCBAlumnos.getSelectedItem();
+        String[] parte = idalumno.split(",");
+        int id = Integer.parseInt(parte[0]);
+        materiasNoInscriptas = inscripcionD.obtenerMateriasNoCursadas(id);
+        borrarFilas();
+        for (Materia mat : materiasNoInscriptas) {
+            modelo.addRow(new Object[]{
+                mat.getIdMateria(),
+                mat.getNombre(),
+                mat.getAño()
+            });
+        }
+    }//GEN-LAST:event_jRNoInscriptasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBAnularINscripcion;
     private javax.swing.JButton jBInscribir;
     private javax.swing.JButton jBSalir;
@@ -204,21 +236,27 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTMaterias;
     // End of variables declaration//GEN-END:variables
-public void armarCabevera(){
-    modelo.addColumn("ID");
-    modelo.addColumn("NOMBRE");
-    modelo.addColumn("AÑO");
-    jTMaterias.setModel(modelo);
-}
-public void cargarComboAlumnos(){
-    AlumnoData alumnoD = new AlumnoData();
-    List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
-    alumnos = alumnoD.listarAlumno();
-    //jCBAlumnos.removeAll();
-    for(Universidad.Entidades.Alumno alu:alumnos){
-        System.out.println(alu.toString());
-        jCBAlumnos.addItem(alu.toString());
+public void armarCabevera() {
+        modelo.addColumn("ID");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("AÑO");
+        jTMaterias.setModel(modelo);
+    }
+
+    public void cargarComboAlumnos() {
+        AlumnoData alumnoD = new AlumnoData();
+        List<Universidad.Entidades.Alumno> alumnos = new ArrayList<>();
+        alumnos = alumnoD.listarAlumno();
+        for (Universidad.Entidades.Alumno alu : alumnos) {
+            jCBAlumnos.addItem(alu.toString());
+        }
+    }
+
+    public void borrarFilas() {
+        int fila = jTMaterias.getRowCount() - 1;
+        for (; fila >= 0; fila--) {
+            modelo.removeRow(fila);
+        }
+
     }
 }
-}
-
