@@ -26,6 +26,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         cargarComboAlumnos();
         armarCabecera();
         
+        
     }
 
     /**
@@ -198,13 +199,16 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnosActionPerformed
-        
+        if(jRIncriptas.isSelected()){
+            jRIncriptas.doClick();
+        } else if(jRNoInscriptas.isSelected()){
+            jRNoInscriptas.doClick();
+        }
     }//GEN-LAST:event_jCBAlumnosActionPerformed
 
     private void jRIncriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRIncriptasActionPerformed
         // TODO add your handling code here:
-        jRIncriptas.setEnabled(false);
-        jRNoInscriptas.setEnabled(true);
+        
          try {
             InscripcionData inscripcionD = new InscripcionData();
             List<Materia> materiasInscriptas;
@@ -238,8 +242,7 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
 
     private void jRNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRNoInscriptasActionPerformed
         // TODO add your handling code here:
-        jRIncriptas.setEnabled(true);
-        jRNoInscriptas.setEnabled(false);
+
          try {
             InscripcionData inscripcionD = new InscripcionData();
             List<Materia> materiasNoInscriptas;
