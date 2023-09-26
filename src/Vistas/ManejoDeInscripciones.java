@@ -8,7 +8,10 @@ package Vistas;
 import AccesoADatos.AlumnoData;
 import AccesoADatos.InscripcionData;
 import Universidad.Entidades.Alumno;
+import Universidad.Entidades.Inscripcion;
 import Universidad.Entidades.Materia;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -107,6 +110,11 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTMaterias);
 
         jBInscribir.setText("INSCRIBIR");
+        jBInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBInscribirActionPerformed(evt);
+            }
+        });
 
         jBAnularINscripcion.setText("ANULAR INSCRIPCION");
         jBAnularINscripcion.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +124,11 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
         });
 
         jBSalir.setText("SALIR");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,18 +202,44 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnosActionPerformed
-    if (!jRINcriptas.isSelected()) {
-    jRINcriptas.setSelected(true);
-}
+    if (jRINcriptas.isSelected()) {
+    jRINcriptas.doClick();
+    }else if (jRNoInscriptas.isSelected()){
+    jRNoInscriptas.doClick();
+    }
 
     }//GEN-LAST:event_jCBAlumnosActionPerformed
 
     private void jRINcriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRINcriptasActionPerformed
         // TODO add your handling code here:
+       InscripcionData inscripcionD = new InscripcionData(); 
+       List<Materia> materiasInscriptas = new ArrayList<>();
+       String idalumno = (String) jCBAlumnos.getSelectedItem();
+        String[] parte = idalumno.split(",");
+        int id = Integer.parseInt(parte[0]);
+        materiasInscriptas = inscripcionD.obtenerMateriasCursadas(id);
+        borrarFilas();
+        for (Materia mat : materiasInscriptas) {
+            modelo.addRow(new Object[]{
+                mat.getIdMateria(),
+                mat.getNombre(),
+                mat.getAño()
+            });
+        }
+        
     }//GEN-LAST:event_jRINcriptasActionPerformed
 
     private void jBAnularINscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAnularINscripcionActionPerformed
         // TODO add your handling code here:
+        int idAlumno;
+        int idMateria;
+        InscripcionData inscripcionD = new InscripcionData();
+        String alumno = (String) jCBAlumnos.getSelectedItem();
+        String[] parte = alumno.split(",");
+        idAlumno = Integer.parseInt(parte[0]);
+        idMateria=(int) (modelo.getValueAt(jTMaterias.getSelectedRow(),0));
+        inscripcionD.borrarInscripcionMateriaAlumno(idAlumno, idMateria);
+        jRINcriptas.doClick();
     }//GEN-LAST:event_jBAnularINscripcionActionPerformed
 
     private void jRNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRNoInscriptasActionPerformed
@@ -219,6 +258,38 @@ public class ManejoDeInscripciones extends javax.swing.JInternalFrame {
             });
         }
     }//GEN-LAST:event_jRNoInscriptasActionPerformed
+
+    private void jBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInscribirActionPerformed
+        // TODO add your handling code here:
+        Materia materia = new Materia();
+        Alumno alumno = new Alumno();
+        Inscripcion inscripcion = new Inscripcion();
+        InscripcionData inscripcionD = new InscripcionData();
+        String idalumno = (String) jCBAlumnos.getSelectedItem();
+        String[] parte = idalumno.split(",");
+        alumno.setIdAlumno(Integer.parseInt(parte[0].trim()));
+        alumno.setDni(Integer.parseInt(parte[1].trim()));
+        alumno.setApellido(parte[2]);
+        alumno.setNombre(parte[3]);
+        alumno.setFechaNacimiento(Date.valueOf(parte[4].trim()).toLocalDate() );
+        alumno.setEstado(true);
+        
+        materia.setIdMateria((int) (modelo.getValueAt(jTMaterias.getSelectedRow(),0)));
+        materia.setNombre((String) modelo.getValueAt(jTMaterias.getSelectedRow(),1));
+        materia.setAño((int) (modelo.getValueAt(jTMaterias.getSelectedRow(),2)));
+        materia.setEstado(true);
+        
+        inscripcion.setAlumno(alumno);
+        inscripcion.setMateria(materia);
+        
+        inscripcionD.guardarInscripcion(inscripcion);
+        jRNoInscriptas.doClick();
+    }//GEN-LAST:event_jBInscribirActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

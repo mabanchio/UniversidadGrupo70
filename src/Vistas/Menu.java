@@ -92,6 +92,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem4.setText("MANIPULACION DE NOTAS");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuBar1.add(jMenu3);
@@ -101,6 +106,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuItem5.setText("ALUMNOS POR MATERIAS");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem5);
 
         jMenuBar1.add(jMenu4);
@@ -151,6 +161,25 @@ public class Menu extends javax.swing.JFrame {
         jDEscritorio.add(ventanaManejoInscripciones);
         jDEscritorio.moveToFront(ventanaManejoInscripciones);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        jDEscritorio.removeAll();
+        jDEscritorio.repaint();
+        ActualizacionDeNotas ventanaActualizarNotas = new ActualizacionDeNotas();
+        ventanaActualizarNotas.setVisible(true);
+        jDEscritorio.add(ventanaActualizarNotas);
+        jDEscritorio.moveToFront(ventanaActualizarNotas);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        jDEscritorio.removeAll();
+        jDEscritorio.repaint();
+        AlumnosPorMateria ventanaAlumnosPorMateria = new AlumnosPorMateria();
+        ventanaAlumnosPorMateria.setVisible(true);
+        jDEscritorio.add(ventanaAlumnosPorMateria);
+         jDEscritorio.moveToFront(ventanaAlumnosPorMateria);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments

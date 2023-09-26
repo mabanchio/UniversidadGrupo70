@@ -124,12 +124,13 @@ public class MateriaData {
         PreparedStatement ps=null;
         ResultSet rs=null;
         List<Materia> materias= new ArrayList<>();
-        Materia materia= new Materia();
+        
         String SQL= " SELECT * FROM materia WHERE estado = true ";
         try {
             ps= con.prepareStatement(SQL);
             rs = ps.executeQuery();
         while(rs.next()){
+            Materia materia= new Materia();
             materia.setIdMateria(rs.getInt("idMateria"));
             materia.setNombre(rs.getString("nombre"));
             materia.setAño(rs.getInt("año"));
